@@ -5,24 +5,48 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light">
 <meta name="theme-color" content="#fbfaf7">
+<meta property="og:title" content="積分page1教學">
+<meta property="og:description" content="積分是什麼？把曲線下的面積切開、變成矩形、再加起來。">
+<script src="line.js"></script>
 <title>積分page1教學</title>
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
 <div id="bar"></div>
 <div class="wrap">
-<a class="back" href="index.html">← 回課程首頁</a>
+<a class="back" href="index.html?openExternalBrowser=1">← 回課程首頁</a>
 <div class="course-id">第三章 §3-1 積分的意義</div>
 <h1>積分page1教學</h1>
-<p class="sub">對照課本第 111 頁。圖都可以動手操作。</p>
+<p class="sub">對照課本第 111 頁。立體、會發光的按鈕都可以按。</p>
+
+<div class="step">先聊聊</div>
+<h2>積分到底是什麼？</h2>
+<p>我會這樣說：<b>積分，就是把「一直在變的東西」加總起來的方法。</b></p>
+<p>用開車來想。車速固定時，路程＝速度 × 時間，一個乘法就好。可是車速忽快忽慢呢？兩種都開開看：</p>
+<div class="card">
+<svg class="fig" id="gi" viewBox="0 0 360 296" role="img" aria-label="速度與時間的圖，車子前進時曲線下的面積跟著填滿"></svg>
+<div class="stats"><div>時間<b id="i-t">0.0 秒</b></div><div>現在速度<b id="i-v"></b></div><div>走了<b id="i-d" class="cg">0.0 公尺</b></div></div>
+<div class="seg" id="i-m"><button data-m="0" class="on">車速固定</button><button data-m="1">忽快忽慢</button></div>
+<div class="btns" data-hint><button class="btn" id="i-go">▶ 開車</button></div>
+<p class="say" id="i-say" aria-live="polite">看藍色那塊：車子走多遠，它就填多少。</p>
+</div>
+<p>那怎麼算曲線下的面積？把時間切成很多小段，每段短到車速<b>幾乎沒變</b>，就能用「速度 × 時間」，最後全部加起來。</p>
+<p class="tip">可以這樣記：「<b>分</b>」是切成小份，「<b>積</b>」是累積起來。<b>積分＝先切小，再加總。</b></p>
+<p><b>這招用在哪？</b>只要「每一刻都在變，但想知道總共多少」，都用得上：</p>
+<ul class="uses">
+<li><span aria-hidden="true">🚗</span><div>車速一直變，<b>總共走多遠</b>？</div></li>
+<li><span aria-hidden="true">💧</span><div>水流忽大忽小，<b>總共流了多少水</b>？</div></li>
+<li><span aria-hidden="true">🔌</span><div>用電忽高忽低，<b>這個月共幾度電</b>？</div></li>
+<li><span aria-hidden="true">🍉</span><div>西瓜切片每片大小不同，<b>整顆體積多大</b>？醫院也能用斷層掃描的一片片影像估算器官體積。</div></li>
+</ul>
+<p>這些問題畫成圖，都是同一題：<b>求曲線下的面積</b>。所以課本從面積開始教。</p>
 
 <div class="card goal">
-<b>曲線下的面積，沒有現成公式，怎麼算？</b>
-<p>切成很多條，每條當成矩形，再全部加起來。</p>
-<ol class="path"><li class="on">1 分割</li><li>2 逼近</li><li>3 求極限</li></ol>
-<p class="small" style="margin-bottom:0">課本求面積分三步驟。這一頁教第 1 步，學到「黎曼和」為止。</p>
+<b>課本求面積，分三步驟：</b>
+<ol class="path"><li class="on">① 分割</li><li>② 逼近</li><li>③ 求極限</li></ol>
+<p class="small" style="margin-bottom:0">這一頁教「分割」，後兩步在 page2。</p>
 </div>
 
 <div class="step">暖身</div>
@@ -31,9 +55,9 @@
 <div class="card">
 <svg class="fig" id="g0" viewBox="0 0 360 290" role="img" aria-label="圓內接正多邊形，邊數加倍時越來越接近圓"></svg>
 <div class="stats"><div>邊數<b id="c-n">6</b></div><div>多邊形面積<b id="c-a"></b></div><div>所失<b id="c-d" class="cr"></b></div></div>
-<div class="quote" id="quote"><span>割之彌細，所失彌少。</span><br><span>割之又割，以至於不可割，</span><br><span>則與圓周合體而無所失矣。</span></div>
-<div class="btns"><button class="btn" id="c-cut">割之又割（邊數 ×2）</button><button class="btn ghost" id="c-re">重來</button></div>
+<div class="btns" data-hint><button class="btn" id="c-cut">割之又割（邊數 ×2）</button><button class="btn ghost" id="c-re">重來</button></div>
 <p class="say" id="c-say" aria-live="polite"></p>
+<div class="quote" id="quote"><span>割之彌細，所失彌少。</span><br><span>割之又割，以至於不可割，</span><br><span>則與圓周合體而無所失矣。</span></div>
 </div>
 
 <div class="step">PART 1</div>
@@ -41,7 +65,7 @@
 <p>區域 <span data-k="R"></span> 由四條邊圍成。點按鈕，把邊一條一條畫上去。</p>
 <div class="card">
 <svg class="fig" id="g1" viewBox="0 0 360 290" role="img" aria-label="曲線 y=f(x)、x 軸、x=a、x=b 圍成的區域 R"></svg>
-<div class="seg" id="edges"><button data-e="0"><span data-k="y=f(x)"></span></button><button data-e="1"><span data-k="y=0"></span></button><button data-e="2"><span data-k="x=a"></span></button><button data-e="3"><span data-k="x=b"></span></button></div>
+<div class="seg" id="edges" data-hint><button data-e="0"><span data-k="y=f(x)"></span></button><button data-e="1"><span data-k="y=0"></span></button><button data-e="2"><span data-k="x=a"></span></button><button data-e="3"><span data-k="x=b"></span></button></div>
 <p class="say" id="e-say" aria-live="polite">四條邊都畫好，才圍得出這塊區域。</p>
 <div id="neg" hidden>
 <p><b>課本為什麼先規定 <span data-k="f(x)"></span> 非負？</b>把曲線往下拉看看。</p>
@@ -55,24 +79,18 @@
 <p>這張圖取 <span data-k="a=1,\ b=7"></span>。改變 <span data-k="n"></span>，看分割點和每段寬度怎麼變。</p>
 <div class="card">
 <svg class="fig" id="g2" viewBox="0 0 360 255" role="img" aria-label="把區域 R 切成 n 個等寬長條"></svg>
-<div class="sl"><output id="n2-o"></output><button data-for="n2" data-d="-1" aria-label="n 減 1">−</button><input id="n2" type="range" min="1" max="12" value="3" aria-label="分割段數 n"><button data-for="n2" data-d="1" aria-label="n 加 1">+</button></div>
+<div class="sl" data-hint><output id="n2-o"></output><button data-for="n2" data-d="-1" aria-label="n 減 1">−</button><input id="n2" type="range" min="1" max="12" value="3" aria-label="分割段數 n"><button data-for="n2" data-d="1" aria-label="n 加 1">+</button></div>
 <div class="fm" id="f2"></div>
 <div class="fm" id="f2b" style="padding-top:0"></div>
 <div class="key" id="n2-say"></div>
-</div>
-<div class="card">
-<b>動手：<span data-k="n=3"></span> 時，<span data-k="x_2"></span> 在哪裡？</b>
-<svg class="fig" id="g2q" viewBox="0 0 360 80" role="img" aria-label="數線，從 1 到 7 的整數點"></svg>
-<div class="seg" id="q2"></div>
-<div class="ans" id="q2a"></div>
 </div>
 
 <div class="step">PART 3</div>
 <h2>任取 <span data-k="t_i"></span>：用矩形代替長條</h2>
 <p>長條的上緣是彎的，不好算。所以在每一段 <span data-k="[x_{i-1},x_i]"></span> 裡<b>隨便挑一點</b> <span data-k="t_i"></span>，拿那一點的函數值當矩形的高。</p>
-<p><b>左右拖動<span class="ch">紫色圓點</span>：</b></p>
+<p><b>用手指左右拖動<span class="ch">紫色圓點</span>：</b></p>
 <div class="card">
-<svg class="fig" id="g3" viewBox="0 0 360 265" aria-label="四個矩形，高度由各段中的 t 決定"></svg>
+<svg class="fig" id="g3" viewBox="0 0 360 268" aria-label="四個矩形，高度由各段中的 t 決定"></svg>
 <div class="small" style="text-align:center"><span class="cr">紅</span>＝多算的　<span class="cg">綠</span>＝少算的</div>
 <div class="fm" id="f3"></div>
 <div class="seg" id="t3"><button data-m="l">全取左端</button><button data-m="m">全取中點</button><button data-m="r">全取右端</button><button data-m="x">隨便取</button></div>
@@ -80,55 +98,40 @@
 </div>
 
 <div class="step">PART 4</div>
-<h2>加起來：<span data-k="\Sigma"></span> 就是「全部相加」</h2>
+<h2>加起來：<span data-k="n"></span> 個矩形的面積和</h2>
 <p>這裡用你在 PART 3 選的 <span data-k="t_i"></span>。按一下，看四塊矩形排成一條。</p>
 <div class="card">
-<svg class="fig" id="g4" viewBox="0 0 360 310" role="img" aria-label="四個矩形的面積依序接成一條總面積"></svg>
-<div class="btns"><button class="btn" id="p4">▶ 開始加</button></div>
+<svg class="fig" id="g4" viewBox="0 0 360 300" role="img" aria-label="四個矩形的面積依序接成一條總面積"></svg>
+<div class="btns" data-hint><button class="btn" id="p4">▶ 開始加</button></div>
 <div class="terms" id="terms" aria-live="polite"></div>
-<div id="sig" hidden>
-<div class="fm" id="f4"></div>
-<p><b>點每個零件，看它在圖上是什麼：</b></p>
-<div class="seg" id="parts"></div>
-<p class="say" id="p-say" aria-live="polite"></p>
-</div>
 </div>
 
 <div class="step">PART 5</div>
-<h2>越切越細，黎曼和往哪裡跑？</h2>
-<p>剛才的和 <span data-k="\sum f(t_i)\cdot\Delta x"></span> 就叫<b>黎曼和</b>。這個 <span data-k="R"></span> 的真正面積是 <b>30</b>（怎麼算出來的，之後會教）。先猜：<span data-k="n"></span> 變大時，<span data-k="t_i"></span> 換不同取法，答案還會差很多嗎？</p>
-<div class="card">
-<svg class="fig" id="g5" viewBox="0 0 360 240" role="img" aria-label="n 個矩形逼近區域 R"></svg>
-<div class="stats"><div>黎曼和<b id="s5"></b></div><div>真正面積<b>30</b></div><div>相差<b id="e5" class="cr"></b></div></div>
-<div class="sl"><output id="n5-o"></output><button data-for="n5" data-d="-1" aria-label="n 減 1">−</button><input id="n5" type="range" min="1" max="100" value="4" aria-label="矩形個數 n"><button data-for="n5" data-d="1" aria-label="n 加 1">+</button></div>
-<div class="seg" id="t5"><button data-m="l">左端</button><button data-m="m">中點</button><button data-m="r">右端</button><button data-m="x" class="on">隨便取</button></div>
-<div class="btns"><button class="btn" id="p5">▶ 從 1 切到 64</button></div>
-<p class="small" style="margin:14px 0 0">每試一次，下面留一個點（高低＝黎曼和）。</p>
-<svg class="fig" id="h5" viewBox="0 0 360 170" role="img" aria-label="各次黎曼和與真正面積 30 的比較"></svg>
+<h2>看懂 <span data-k="\Sigma"></span> 這一串符號</h2>
+<p>四項全寫出來太長，數學家用 <span data-k="\Sigma"></span> 縮寫。<b>點零件，看它在圖上是什麼：</b></p>
+<div class="card" id="sigma">
+<svg class="fig" id="g5" viewBox="0 0 360 236" role="img" aria-label="四個矩形，標出目前所選符號代表的部分"></svg>
+<div class="seg" id="parts" data-hint></div>
+<p class="say" id="p-say" aria-live="polite"></p>
+<div class="fm" id="f4"></div>
 </div>
-<div class="tip"><b>下一頁預告：</b>「<span data-k="n"></span> 越大越接近」目前只是用眼睛看到的。課本下一頁會用上和、下和把面積夾住，再用夾擠定理說明。</div>
-
-<div class="step">收起來</div>
-<h2>黎曼和（Riemann sum）</h2>
-<div class="card goal">
-<div class="fm" id="f6"></div>
-<p>叫做 <span data-k="f(x)"></span> 在 <span data-k="[a,b]"></span> 上，對於分割點 <span data-k="x_0,x_1,\dots,x_n"></span> 的<b>黎曼和</b>。它可以當成區域 <span data-k="R"></span> 面積的<b>近似值</b>。</p>
-<ol style="margin-bottom:0"><li><b>切</b>：等分 <span data-k="n"></span> 段，<span class="cw"><span data-k="\Delta x=\frac{b-a}{n}"></span></span></li><li><b>挑</b>：每段任取一個 <span data-k="t_i"></span></li><li><b>乘</b>：<span class="ch">高</span> × <span class="cw">寬</span> ＝ <span data-k="f(t_i)\cdot\Delta x"></span></li><li><b>加</b>：從 <span data-k="i=1"></span> 加到 <span data-k="i=n"></span></li></ol>
-</div>
+<div class="key">一般寫成 <span data-k="\displaystyle\sum_{i=1}^{n}f(t_i)\cdot\Delta x"></span>，可以當成區域 <span data-k="R"></span> 面積的<b>近似值</b>。</div>
 
 <div class="step">自我檢查</div>
 <h2>五題小測</h2>
 <div class="card" id="quiz"></div>
 <div class="card">
-<b>用自己的話說：黎曼和在算什麼？為什麼它只是「近似值」？</b>
-<textarea id="own" rows="4" placeholder="兩三句就好" aria-label="用自己的話說明黎曼和"></textarea>
+<b>用自己的話說：積分為什麼要先「切」？加起來的結果為什麼只是「近似值」？</b>
+<textarea id="own" rows="4" placeholder="兩三句就好" aria-label="用自己的話說明"></textarea>
 <div class="btns"><button class="btn" id="copy">複製我的作答</button></div>
 <div class="msg" id="msg" aria-live="polite"></div>
 </div>
+<a class="btn next" href="integral-page2.html?openExternalBrowser=1">下一頁：積分page2教學 →</a>
 <div class="foot">按「複製我的作答」後，貼到 LINE 傳回。</div>
 </div>
 <script src="vendor/katex/katex.min.js"></script>
 <script src="vendor/motion.js"></script>
-<script src="integral-page1.js"></script>
+<script src="common.js?v=2"></script>
+<script src="integral-page1.js?v=2"></script>
 </body>
 </html>

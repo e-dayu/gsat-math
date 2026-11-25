@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#fbfaf7">
+<meta property="og:title" content="積分page2教學">
+<meta property="og:description" content="黎曼和、上和與下和，再用夾擠定理求出真正的面積。">
+<script src="line.js"></script>
+<title>積分page2教學</title>
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css?v=2">
+</head>
+<body>
+<div id="bar"></div>
+<div class="wrap">
+<a class="back" href="index.html?openExternalBrowser=1">← 回課程首頁</a>
+<div class="course-id">第三章 §3-1 積分的意義</div>
+<h1>積分page2教學</h1>
+<p class="sub">對照課本第 112 頁：黎曼和、逼近、求極限。</p>
+
+<div class="card goal">
+<b>page1 已經會「切、挑、乘、加」，得到近似值。</b>
+<p>這一頁要回答：怎麼從「近似」變成「剛剛好」？</p>
+<ol class="path"><li class="ok">① 分割 ✓</li><li class="on">② 逼近</li><li class="on">③ 求極限</li></ol>
+</div>
+
+<div class="step">PART 1</div>
+<h2>黎曼和（Riemann sum）</h2>
+<p>page1 最後那個和，有個正式名字：</p>
+<div class="card goal">
+<div class="fm" id="f1"></div>
+<p>叫做 <span data-k="f(x)"></span> 在 <span data-k="[a,b]"></span> 上，對於分割點 <span data-k="x_0,x_1,\dots,x_n"></span> 的<b>黎曼和</b>。</p>
+<ol style="margin-bottom:0"><li><b>切</b>：等分 <span data-k="n"></span> 段，<span class="cw"><span data-k="\Delta x=\frac{b-a}{n}"></span></span></li><li><b>挑</b>：每段任取一個 <span data-k="t_i"></span></li><li><b>乘</b>：<span class="ch">高</span> × <span class="cw">寬</span> ＝ <span data-k="f(t_i)\cdot\Delta x"></span></li><li><b>加</b>：從 <span data-k="i=1"></span> 加到 <span data-k="i=n"></span></li></ol>
+</div>
+<p class="small">黎曼（Bernhard Riemann，1826～1866），德國數學家。</p>
+
+<div class="step">PART 2</div>
+<h2>越切越細，黎曼和往哪裡跑？</h2>
+<p>沿用 page1 的圖，<span data-k="R"></span> 的真正面積是 <b>30</b>。先猜：<span data-k="n"></span> 變大時，<span data-k="t_i"></span> 換不同取法，答案還會差很多嗎？</p>
+<div class="card">
+<svg class="fig" id="g2" viewBox="0 0 360 232" role="img" aria-label="n 個矩形逼近區域 R"></svg>
+<div class="stats"><div>黎曼和<b id="s2"></b></div><div>真正面積<b>30</b></div><div>相差<b id="e2" class="cr"></b></div></div>
+<div class="sl"><output id="n2-o"></output><button data-for="n2" data-d="-1" aria-label="n 減 1">−</button><input id="n2" type="range" min="1" max="100" value="4" aria-label="矩形個數 n"><button data-for="n2" data-d="1" aria-label="n 加 1">+</button></div>
+<div class="seg" id="t2"><button data-m="l">左端</button><button data-m="m">中點</button><button data-m="r">右端</button><button data-m="x" class="on">隨便取</button></div>
+<div class="btns" data-hint><button class="btn" id="p2">▶ 從 1 切到 64</button></div>
+<p class="small" style="margin:14px 0 0">每試一次，下面留一個點（高低＝黎曼和）。</p>
+<svg class="fig" id="h2" viewBox="0 0 360 190" role="img" aria-label="各次黎曼和與真正面積 30 的比較"></svg>
+</div>
+<p>不管怎麼取，都往 30 靠。可是「看起來」不算證明。課本的辦法：<b>從下面和上面兩邊夾住它。</b></p>
+
+<div class="step">PART 3</div>
+<h2>逼近：每一段的最大值 <span data-k="M_i"></span> 和最小值 <span data-k="m_i"></span></h2>
+<p>在每一段 <span data-k="[x_{i-1},x_i]"></span> 裡，<span data-k="f(x)"></span> 都有最高點和最低點。點一段，看小球走一遍把它們找出來。</p>
+<div class="card">
+<svg class="fig" id="g3" viewBox="0 0 360 232" role="img" aria-label="一段區間內的最大值與最小值"></svg>
+<div class="seg" id="b3" data-hint></div>
+<p class="say" id="s3" aria-live="polite">五段都點點看。小心：最高點一定在端點嗎？</p>
+</div>
+
+<div class="step">PART 4</div>
+<h2>下和 <span data-k="L_n"></span> 與上和 <span data-k="U_n"></span></h2>
+<p>每段都用<b class="cg">最小值</b>當高，加起來叫<b class="cg">下和</b>；都用<b class="cr">最大值</b>當高，加起來叫<b class="cr">上和</b>。</p>
+<div class="card">
+<svg class="fig" id="g4" viewBox="0 0 360 232" role="img" aria-label="下和與上和的矩形"></svg>
+<div class="seg" id="m4" data-hint><button data-m="L">下和</button><button data-m="U">上和</button><button data-m="B" class="on">疊在一起</button></div>
+<div class="sl"><output id="n4-o"></output><button data-for="n4" data-d="-1" aria-label="n 減 1">−</button><input id="n4" type="range" min="1" max="100" value="5" aria-label="段數 n"><button data-for="n4" data-d="1" aria-label="n 加 1">+</button></div>
+<div class="stats"><div>下和<b id="l4" class="cg"></b></div><div>真正面積<b>30</b></div><div>上和<b id="u4" class="cr"></b></div></div>
+<p class="say" id="s4" aria-live="polite"></p>
+<div class="fm" id="f4" style="font-size:16px"></div>
+</div>
+
+<div class="step">PART 5</div>
+<h2>求極限：兩邊夾過來</h2>
+<p>把三個數放到同一條數線上。拉大 <span data-k="n"></span>，看<span class="cg">綠色</span>和<span class="cr">紅色</span>兩道牆往中間夾。再丟幾個隨便取 <span data-k="t_i"></span> 的黎曼和進去，看會不會跑出牆外。</p>
+<div class="card">
+<svg class="fig" id="g5" viewBox="0 0 360 170" role="img" aria-label="數線上，下和與上和夾住面積 30"></svg>
+<div class="stats"><div>下和<b id="l5" class="cg"></b></div><div>兩牆距離<b id="w5"></b></div><div>上和<b id="u5" class="cr"></b></div></div>
+<div class="sl"><output id="n5-o"></output><button data-for="n5" data-d="-1" aria-label="n 減 1">−</button><input id="n5" type="range" min="1" max="100" value="2" aria-label="段數 n"><button data-for="n5" data-d="1" aria-label="n 加 1">+</button></div>
+<div class="btns" data-hint><button class="btn" id="p5">丟 5 個黎曼和</button><button class="btn ghost" id="q5">▶ 自動夾</button></div>
+<p class="say" id="s5" aria-live="polite"></p>
+</div>
+
+<div class="step">PART 6</div>
+<h2>把它寫成數學</h2>
+<p>剛才看到的，課本用四步寫出來。一步一步按：</p>
+<div class="card">
+<ol class="proof" id="proof"></ol>
+<div class="btns" data-hint><button class="btn" id="nx">看第 1 步</button></div>
+</div>
+<div class="key" id="end" hidden>一句話收尾：<b>切細 → 夾住 → 取極限</b>，近似值就變成真正的面積。</div>
+
+<div class="step">自我檢查</div>
+<h2>五題小測</h2>
+<div class="card" id="quiz"></div>
+<div class="card">
+<b>用自己的話說：為什麼用上和、下和夾住，就能確定面積是多少？</b>
+<textarea id="own" rows="4" placeholder="兩三句就好" aria-label="用自己的話說明"></textarea>
+<div class="btns"><button class="btn" id="copy">複製我的作答</button></div>
+<div class="msg" id="msg" aria-live="polite"></div>
+</div>
+<a class="btn ghost next" href="integral-page1.html?openExternalBrowser=1">← 回積分page1教學</a>
+<div class="foot">按「複製我的作答」後，貼到 LINE 傳回。</div>
+</div>
+<script src="vendor/katex/katex.min.js"></script>
+<script src="vendor/motion.js"></script>
+<script src="common.js?v=2"></script>
+<script src="integral-page2.js?v=2"></script>
+</body>
+</html>
