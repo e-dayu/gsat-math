@@ -133,3 +133,12 @@ textarea{width:100%;border:1.5px solid #a9bac7;border-radius:12px;padding:12px;f
 .sl.hint::after{left:56%;bottom:-16px}
 @media (max-width:360px){#parts button{font-size:13px}#b3 button{font-size:13px}#edges{flex-wrap:wrap}#edges button{flex:1 0 40%}.fm{font-size:16px}#t3 button{font-size:14px}}
 @media (prefers-reduced-motion:reduce){.btn::after,.hint button,.hint::after,.rip{animation:none!important}}
+.seg.g3{display:grid;grid-template-columns:repeat(3,1fr)}
+.seg.g2{display:grid;grid-template-columns:repeat(2,1fr)}
+.no-of{margin:0}
+.no-of+.fm{min-height:3.4em}
+.thumb{display:block;width:100%;max-width:300px;margin:4px auto}
+.terms4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0}
+.terms4 .r{text-align:center;min-height:2.8em;display:flex;align-items:center;justify-content:center}
+.stats b.cb{color:var(--blue)}
+@media (max-width:360px){#b6 button,#b8 button{font-size:14px}.card .fm{font-size:15px!important}.key .katex,.q .katex,.ans .katex,.say .katex{font-size:1em}.ans,.key{overflow-x:auto;overflow-y:hidden}#b2 button{font-size:14px}.seg button .katex{font-size:1em}}

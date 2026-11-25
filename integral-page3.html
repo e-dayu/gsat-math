@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#fbfaf7">
+<meta property="og:title" content="積分page3教學">
+<meta property="og:description" content="定積分是什麼？為什麼可能是負的？再親手算一次 x² 的面積。">
+<script src="line.js"></script>
+<title>積分page3教學</title>
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css?v=6">
+</head>
+<body>
+<div id="bar"></div>
+<div class="wrap">
+<a class="back" href="index.html?openExternalBrowser=1">← 回課程首頁</a>
+<div class="course-id">第三章 積分</div>
+<h1>積分page3教學</h1>
+<p class="sub">對照課本第 113 頁：定積分的概念。</p>
+<div class="qr"><img src="qr-page3.svg" width="136" height="136" alt="本頁網址的 QR code"><div><b>用 iPad 看更清楚</b><br>打開 iPad 相機，掃左邊的 QR code，就能換成大螢幕閱讀。</div></div>
+
+<div class="card goal">
+<b>page2 用上和、下和兩邊夾，夾到同一個數。</b>
+<p>這一頁要做三件事：</p>
+<ol style="margin-bottom:0"><li>替那個數<b>取名字</b>：定積分</li><li>看懂它什麼時候是<b>面積</b>，什麼時候不是</li><li><b>親手算一次</b></li></ol>
+</div>
+
+<div class="step">PART 1</div>
+<h2>替那個數取名字：定積分</h2>
+<p>下和 <span class="cg"><span data-k="L_n"></span></span> 和上和 <span class="cr"><span data-k="U_n"></span></span> 夾到同一個數 <span data-k="s"></span>：</p>
+<div class="card goal">
+<div class="fm"><span data-k="\displaystyle\lim_{n\to\infty}\textcolor{#0e7a55}{L_n}=\lim_{n\to\infty}\textcolor{#c81e2d}{U_n}=s"></span></div>
+<p>這個 <span data-k="s"></span>，就叫 <span data-k="f(x)"></span> 在 <span data-k="[a,b]"></span> 上的<b>定積分</b>，寫成</p>
+<div class="fm"><span data-k="\displaystyle\int_a^b f(x)\,dx"></span></div>
+</div>
+<p>這個符號從哪裡來？<b>從 Σ 變來的。</b>按按看：</p>
+<div class="card">
+<svg class="fig" id="g1" viewBox="0 0 360 336" role="img" aria-label="矩形越切越細，Σ 變成積分符號"></svg>
+<div class="stats"><div>切成幾段<b id="n1"></b></div><div>加起來<b id="v1"></b></div></div>
+<div class="seg" id="b1"><button>4 段</button><button>16 段</button><button>64 段</button><button>無限細</button></div>
+<div class="btns" data-hint><button class="btn" id="p1">▶ 看 Σ 變成 ∫</button></div>
+<p class="say" id="s1" aria-live="polite"></p>
+</div>
+
+<div class="step">PART 2</div>
+<h2>把符號拆開看</h2>
+<p><b>點每個零件</b>，看它是圖上的哪裡。<b>也可以左右拖兩個大圓點</b>，換起點和終點：</p>
+<div class="card">
+<svg class="fig" id="g2" aria-label="曲線下的區域，起點 a 和終點 b 可以拖動"></svg>
+<div class="seg" id="b2" data-hint></div>
+<p class="say" id="s2" aria-live="polite"></p>
+<div class="fm" id="f2"></div>
+<div class="fm" id="v2" style="font-size:17px"></div>
+</div>
+<p class="tip">合起來唸：<b>從 <span data-k="a"></span> 到 <span data-k="b"></span>，把每一條「高 <span data-k="f(x)"></span> × 寬 <span data-k="dx"></span>」全部加起來。</b></p>
+<div class="no"><b>✗ 把「上限、下限」當成「上和、下和」</b><br>上限、下限是 <span data-k="x"></span> 軸上的<b>位置</b>（從哪到哪）。上和、下和是<b>加起來的結果</b>（多算、少算）。</div>
+<div class="no"><b>✗ 把「上限、下限」當成「極限」</b><br>極限是「越來越靠近的數」。上限、下限只是終點和起點。</div>
+
+<div class="step">PART 3</div>
+<h2>定積分可能是負的</h2>
+<p>想像一個禮拜的零用錢。<b class="cb">進來</b>往上畫，<b class="cr">花掉</b>往下畫，最後看<b>結餘</b>：</p>
+<div class="card">
+<svg class="fig" id="g3" role="img" aria-label="七天的收支長條，往上是收入，往下是支出"></svg>
+<div class="seg" id="b3" data-hint><button data-m="p">進來比較多</button><button data-m="z">剛好打平</button><button data-m="n">花掉比較多</button></div>
+<div class="stats"><div>結餘<b id="v3">?</b></div></div>
+<p class="say" id="s3" aria-live="polite">按一個，看一天一天加起來。</p>
+</div>
+<p><b>定積分就是在算「結餘」。</b>每一條是 <span class="ch">高 <span data-k="f(x)"></span></span> × <span class="cw">寬 <span data-k="dx"></span></span>，高在 <span data-k="x"></span> 軸下面時是負的，那一條就是負的。</p>
+<p>所以定積分可能是<b>正數、0、或負數</b>。</p>
+<h3>把曲線往下搬搬看</h3>
+<p><span data-k="y=x^2"></span> 在 0 到 3，整條一起往下搬。<b class="cb">藍色是正的</b>，<b class="cr">紅色是負的</b>：</p>
+<div class="card">
+<svg class="fig" id="g4" role="img" aria-label="拋物線往下搬動，x 軸上方藍色、下方紅色"></svg>
+<div class="sl"><output id="c4-o"></output><button data-for="c4" data-d="-0.5" aria-label="往上搬">−</button><input id="c4" type="range" min="0" max="6" step="0.5" value="0" aria-label="往下搬多少"><button data-for="c4" data-d="0.5" aria-label="往下搬">+</button></div>
+<div class="btns" data-hint><button class="btn" id="p4">▶ 慢慢往下搬</button></div>
+<div class="fm" id="f4"></div>
+<p class="say" id="s4" aria-live="polite"></p>
+</div>
+<p class="small">這個數怎麼算出來，page4_5 會教。這裡先看它是正是負。</p>
+
+<div class="step">PART 4</div>
+<h2>什麼時候，定積分才是面積？</h2>
+<div class="key"><b>只有 <span data-k="f(x)\ge0"></span>，也就是整條都不在 <span data-k="x"></span> 軸下面的時候。</b><br>這時 <span data-k="\int_a^bf(x)\,dx"></span> 就是圖形和 <span data-k="x=a"></span>、<span data-k="x=b"></span>、<span data-k="y=0"></span> 圍出來的面積。</div>
+<p>下面四張圖，定積分<b>是不是</b>面積？</p>
+<div class="card" id="try"></div>
+
+<div class="step">PART 5</div>
+<h2>課本範例 1：先切 4 段練習</h2>
+<p><span data-k="f(x)=x^2"></span> 的圖形與 <span data-k="y=0"></span>、<span data-k="x=0"></span>、<span data-k="x=1"></span> 圍成區域 <span data-k="R"></span>。把 <span data-k="[0,1]"></span> 等分成 <span data-k="n"></span> 段，求上和、下和與面積。</p>
+<p>一開始就用 <span data-k="n"></span> 會很抽象，<b>先用 4 段走一次</b>：</p>
+<div class="card">
+<svg class="fig" id="g5" role="img" aria-label="x 平方在 0 到 1，切成四段的上和與下和"></svg>
+<div id="st5"></div>
+</div>
+
+<div class="step">PART 6</div>
+<h2>把 4 換成 <span data-k="n"></span></h2>
+<p>做的事一模一樣，只是把數字 4 換成字母 <span data-k="n"></span>。</p>
+<div class="card" id="st6"></div>
+<h3>(3) 求面積：<span data-k="n"></span> 變很大，會剩下什麼？</h3>
+<p>把分子、分母都除以 <span data-k="n^2"></span>：</p>
+<div class="fm"><span data-k="\displaystyle\textcolor{#c81e2d}{U_n}=\frac{2n^2+3n+1}{6n^2}=\frac{2+\frac3n+\frac1{n^2}}{6}"></span></div>
+<div class="card">
+<svg class="fig" id="g6" viewBox="0 0 360 122" role="img" aria-label="2 加 3/n 加 1/n 平方的長條，n 越大只剩下 2"></svg>
+<div class="stats"><div><span data-k="\frac3n"></span><b id="a6" class="ch"></b></div><div><span data-k="\frac1{n^2}"></span><b id="d6" style="color:var(--w)"></b></div><div>下和<b id="l6" class="cg"></b></div><div>上和<b id="u6" class="cr"></b></div></div>
+<div class="sl"><output id="n6-o"></output><button data-for="n6" data-d="-1" aria-label="n 減 1">−</button><input id="n6" type="range" min="1" max="100" value="1" aria-label="段數 n"><button data-for="n6" data-d="1" aria-label="n 加 1">+</button></div>
+<div class="btns" data-hint><button class="btn" id="p6">▶ n 一直變大</button></div>
+<p class="say" id="s6" aria-live="polite"></p>
+</div>
+<div class="key">上和、下和都跑到 <span data-k="\frac13"></span>，所以<br><b><span data-k="R"></span> 的面積 ＝ <span data-k="\displaystyle\int_0^1x^2\,dx=\frac13"></span></b></div>
+<p>算得很累對不對？<b>page4_5 有一條捷徑，一行就算完。</b></p>
+
+<div class="step">自我檢查</div>
+<h2>五題小測</h2>
+<div class="card" id="quiz"></div>
+<div class="card">
+<b>用自己的話說：為什麼定積分可能是負的？什麼時候它才是面積？</b>
+<textarea id="own" rows="4" placeholder="兩三句就好" aria-label="用自己的話說明"></textarea>
+<div class="btns"><button class="btn" id="copy">複製我的作答</button></div>
+<div class="msg" id="msg" aria-live="polite"></div>
+</div>
+<a class="btn next" href="integral-page4_5.html?openExternalBrowser=1">下一頁：積分page4_5教學 →</a>
+<a class="btn ghost next" href="integral-page2.html?openExternalBrowser=1">← 回積分page2教學</a>
+<div class="foot">按「複製我的作答」後，貼到 LINE 傳回。</div>
+</div>
+<script src="vendor/katex/katex.min.js"></script>
+<script src="vendor/motion.js"></script>
+<script src="common.js?v=2"></script>
+<script src="plot.js?v=1"></script>
+<script src="integral-page3.js?v=1"></script>
+</body>
+</html>

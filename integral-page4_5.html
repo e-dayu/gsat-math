@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#fbfaf7">
+<meta property="og:title" content="積分page4_5教學">
+<meta property="og:description" content="微積分基本定理：反導函數、不定積分、水桶與水表，還有六個運算性質。">
+<script src="line.js"></script>
+<title>積分page4_5教學</title>
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css?v=6">
+</head>
+<body>
+<div id="bar"></div>
+<div class="wrap">
+<a class="back" href="index.html?openExternalBrowser=1">← 回課程首頁</a>
+<div class="course-id">第三章 積分</div>
+<h1>積分page4_5教學</h1>
+<p class="sub">對照課本第 118、119 頁：微積分基本定理。</p>
+<div class="qr"><img src="qr-page4_5.svg" width="136" height="136" alt="本頁網址的 QR code"><div><b>用 iPad 看更清楚</b><br>打開 iPad 相機，掃左邊的 QR code，就能換成大螢幕閱讀。</div></div>
+
+<div class="card goal">
+<b>page3 算 <span data-k="\int_0^1x^2\,dx=\frac13"></span>，走了好多步。有沒有捷徑？</b>
+<p>有。祕密是：<b>積分，就是把微分倒著做。</b></p>
+<p style="margin-bottom:0">這一頁比較長，可以分兩次讀：</p>
+<ol style="margin-bottom:0"><li>PART 1～4：學會「倒著微分」</li><li>PART 5～9：用它來算定積分</li></ol>
+</div>
+
+<div class="step">PART 1</div>
+<h2>反導函數：猜猜原本是誰</h2>
+<p>微分像一台機器：放進 <span data-k="x^2"></span>，出來 <span data-k="2x"></span>。</p>
+<p>現在反過來問：<b>出來的是 <span data-k="2x"></span>，原本放進去的是誰？</b> 把下面五個都放進去試試，找出所有答案。</p>
+<div class="card">
+<svg class="fig" id="g1" viewBox="0 0 360 212" role="img" aria-label="微分機，左邊放進函數，右邊出來它的導函數"></svg>
+<div class="seg g3" id="b1" data-hint></div>
+<div class="btns"><button class="btn ghost" id="rev">⏪ 把 2x 倒著放</button></div>
+<p class="say" id="s1" aria-live="polite">按一個函數，放進機器。</p>
+</div>
+<div class="key">如果 <span data-k="F'(x)=f(x)"></span>，就說 <b><span data-k="F(x)"></span> 是 <span data-k="f(x)"></span> 的一個反導函數</b>。<br>例如 <span data-k="x^2"></span> 是 <span data-k="2x"></span> 的一個反導函數。</div>
+<p class="tip">注意是「<b>一個</b>」，不是「那個」。因為答案不只一個。</p>
+
+<div class="step">PART 2</div>
+<h2>為什麼答案只差一個常數？</h2>
+<p>微分看的是<b>斜度</b>。把整條曲線<b>往上搬、往下搬</b>，高度變了，<b>斜度沒變</b>。</p>
+<p>拖紫色圓點換位置，再用下面的滑桿搬曲線：</p>
+<div class="card">
+<svg class="fig" id="g2" aria-label="三條上下平移的拋物線，同一個位置的切線互相平行"></svg>
+<div class="stats"><div>位置 <span data-k="x"></span><b id="x2" class="ct"></b></div><div>高度<b id="y2"></b></div><div>切線斜率<b id="m2" class="ch"></b></div></div>
+<div class="sl"><output id="c2-o"></output><button data-for="c2" data-d="-0.5" aria-label="c 變小">−</button><input id="c2" type="range" min="-3" max="3" step="0.5" value="0" aria-label="常數 c"><button data-for="c2" data-d="0.5" aria-label="c 變大">+</button></div>
+<p class="say" id="s2" aria-live="polite"></p>
+</div>
+<div class="key"><b>反導函數原理：</b>若 <span data-k="F(x)"></span>、<span data-k="G(x)"></span> 都是 <span data-k="f(x)"></span> 的反導函數，<br>則 <span data-k="G(x)=F(x)+c"></span>（<span data-k="c"></span> 是常數）。</div>
+
+<div class="step">PART 3</div>
+<h2>不定積分：把所有答案寫成一個</h2>
+<p>所有的反導函數，合起來寫成 <span data-k="\int f(x)\,dx"></span>，叫做 <span data-k="f(x)"></span> 的<b>不定積分</b>。</p>
+<div class="card goal"><div class="fm"><span data-k="\displaystyle\int f(x)\,dx=F(x)+c"></span></div><p style="text-align:center;margin:0">例：<span data-k="\int 2x\,dx=x^2+c"></span></p></div>
+<p>它和 page3 的定積分長得很像，<b>但不是同一種東西</b>：</p>
+<table class="cmp">
+<tr><th></th><th class="cb">定積分</th><th class="ch">不定積分</th></tr>
+<tr><th>寫法</th><td><span data-k="\int_a^bf(x)\,dx"></span></td><td><span data-k="\int f(x)\,dx"></span></td></tr>
+<tr><th>上下限</th><td><b>有</b></td><td><b>沒有</b></td></tr>
+<tr><th>答案是</th><td><b class="cb">一個數</b></td><td><b class="ch">一群函數</b></td></tr>
+<tr><th>要不要 <span data-k="+c"></span></th><td>不用</td><td><b>要</b></td></tr>
+</table>
+<div class="no"><b>✗ 不定積分忘記寫 <span data-k="+c"></span></b><br>少了 <span data-k="c"></span>，就只寫出一個答案，漏掉其他的。</div>
+
+<div class="step">PART 4</div>
+<h2>多項式怎麼積？次方加 1，再除以新次方</h2>
+<p>微分是「次方拿下來乘，次方<b>減 1</b>」。倒過來就是「次方<b>加 1</b>，再<b>除以</b>新次方」。</p>
+<div class="card">
+<svg class="fig" id="g4" viewBox="0 0 360 170" role="img" aria-label="x 的 n 次方，次方加一後再除以新次方"></svg>
+<div class="sl"><output id="n4-o"></output><button data-for="n4" data-d="-1" aria-label="次方減 1">−</button><input id="n4" type="range" min="0" max="6" value="2" aria-label="次方 n"><button data-for="n4" data-d="1" aria-label="次方加 1">+</button></div>
+<div class="btns" data-hint><button class="btn" id="p4">▶ 積一次</button></div>
+<p class="say" id="s4" aria-live="polite"></p>
+</div>
+<h3>好幾項怎麼辦？一項一項積</h3>
+<p>求 <span data-k="\int(4x^3-6x^2+2x+5)\,dx"></span>。<b>每一項都點一下：</b></p>
+<div class="card">
+<div class="seg" id="t4" data-hint></div>
+<div class="terms4" id="r4"></div>
+<div class="fm" id="f4"></div>
+<p class="say" id="s4b" aria-live="polite">按上面的項，看它積分後變成什麼。</p>
+</div>
+<div class="no"><b>✗ 常數 5 積分後還是 5</b><br>5 可以看成 <span data-k="5x^0"></span>，次方加 1 變成 <span data-k="5x"></span>。檢查：<span data-k="5x"></span> 微分是 5 ✓</div>
+<p>全部寫成公式：</p>
+<div class="fm" style="font-size:17px"><span data-k="\displaystyle\begin{aligned}&\int(a_nx^n+a_{n-1}x^{n-1}\\&\qquad+\cdots+a_1x+a_0)\,dx\\&=\frac{a_n}{n+1}x^{n+1}+\frac{a_{n-1}}{n}x^n\\&\qquad+\cdots+\frac{a_1}{2}x^2+a_0x+c\end{aligned}"></span></div>
+<h3>換你試試</h3>
+<div class="card" id="try4"></div>
+
+<div class="step">PART 5</div>
+<h2>水桶：積分為什麼是微分的倒過來？</h2>
+<p>水龍頭忽大忽小地流。<span class="cb"><span data-k="f(t)"></span> 是<b>水流多大</b></span>，<span class="ct"><span data-k="g(x)"></span> 是<b>桶子裡累積了多少水</b></span>，從 <span data-k="a=1"></span> 開始接。</p>
+<p><b>拖圓點，或按開水龍頭：</b></p>
+<div class="card">
+<svg class="fig" id="g5" viewBox="0 0 360 396" aria-label="上圖是水流 f(t)，下圖是累積水量 g(x)，右邊是水桶"></svg>
+<div class="stats"><div>水流 <span data-k="f(x)"></span><b id="f5" class="cb"></b></div><div>水量 <span data-k="g(x)"></span><b id="v5" class="ct"></b></div><div>水量的斜率 <span data-k="g'(x)"></span><b id="d5" class="ch"></b></div></div>
+<div class="btns" data-hint><button class="btn" id="p5">▶ 開水龍頭</button></div>
+<p class="say" id="s5" aria-live="polite"></p>
+</div>
+<p>水流大，水位就漲得快。<b>水量上升的速度，就是水流的大小。</b></p>
+<div class="key"><b>微積分基本定理 (1)</b>：令 <span data-k="\displaystyle g(x)=\int_a^xf(t)\,dt"></span>，則 <b><span data-k="g'(x)=f(x)"></span></b>。<br>先積分、再微分，就<b>變回原來的 <span data-k="f"></span></b>。</div>
+<p class="tip">為什麼裡面寫 <span data-k="t"></span>？因為 <span data-k="x"></span> 已經拿去當<b>終點</b>了，走在路上的變數要換一個字母，才不會撞名。</p>
+<h3>多接一下下，會多多少水？</h3>
+<p>從 <span data-k="x=4"></span> 再多接一小段 <span data-k="h"></span>。多出來的是一條<b>很像長方形</b>的細條：</p>
+<div class="card">
+<svg class="fig" id="g6" role="img" aria-label="x 等於 4 到 4+h 的細條，h 越小越像長方形"></svg>
+<div class="stats"><div>多的水量<b id="a6" class="ct"></b></div><div>÷ <span data-k="h"></span><b id="q6" class="ch"></b></div><div><span data-k="f(4)"></span><b id="f6" class="cb"></b></div></div>
+<div class="seg" id="b6" data-hint><button data-h="1.5" class="on">h=1.5</button><button data-h="0.5">h=0.5</button><button data-h="0.1">h=0.1</button><button data-h="0.01">h=0.01</button></div>
+<p class="say" id="s6" aria-live="polite"></p>
+</div>
+<h3>換你試試</h3>
+<div class="card" id="try5"></div>
+
+<div class="step">PART 6</div>
+<h2>水表：算定積分的捷徑</h2>
+<p>這個月用多少水？<b>不用整天盯著看</b>，只要兩個數字：</p>
+<p style="text-align:center;font-size:21px"><b>月底讀數 − 月初讀數</b></p>
+<p>反導函數 <span data-k="F(x)"></span> 就是水表。下面 <span data-k="f(x)=2x"></span>，水表是 <span data-k="F(x)=x^2+c"></span>。<b>拖兩個圓點換月初、月底：</b></p>
+<div class="card">
+<svg class="fig" id="g7" aria-label="直線 y=2x 下的面積，等於兩個水表讀數相減"></svg>
+<div class="sl"><output id="c7-o"></output><button data-for="c7" data-d="-1" aria-label="c 變小">−</button><input id="c7" type="range" min="0" max="20" value="0" aria-label="水表原本的數字 c"><button data-for="c7" data-d="1" aria-label="c 變大">+</button></div>
+<div class="fm" id="f7"></div>
+<p class="say" id="s7" aria-live="polite"></p>
+</div>
+<div class="key"><b>微積分基本定理 (2)</b>：若 <span data-k="F'(x)=f(x)"></span>，則<br><span data-k="\displaystyle\int_a^bf(x)\,dx=F(b)-F(a)"></span></div>
+<p>水表原本是幾度（<span data-k="c"></span>）不影響用水量，<b>相減就消掉了。所以算定積分不用寫 <span data-k="+c"></span>。</b></p>
+
+<div class="step">PART 7</div>
+<h2>求定積分，兩個步驟</h2>
+<ol><li><b>找</b>一個反導函數 <span data-k="F(x)"></span></li><li><b>代</b>：上限代進去，減掉下限代進去</li></ol>
+<p>中間常寫成 <span data-k="F(x)\Big|_a^b"></span>，意思就是 <span data-k="F(b)-F(a)"></span>。</p>
+<h3>先還 page3 的債：<span data-k="\int_0^1x^2\,dx"></span></h3>
+<div class="card goal"><div class="fm"><span data-k="\displaystyle\int_0^1x^2\,dx=\frac{x^3}{3}\,\Big|_0^1=\frac13-0=\frac13"></span></div><p style="text-align:center;margin:0">一行就算完，答案一模一樣。</p></div>
+<h3>再來一題：<span data-k="\int_1^3(3x^2-2x)\,dx"></span></h3>
+<div class="card" id="st7"></div>
+<div class="no"><b>✗ 代負數進去，忘了括號</b><br>減掉的是<b>整個</b> <span data-k="F(a)"></span>，一定要先用括號包起來。</div>
+<h3>換你試試</h3>
+<div class="card"><p style="margin-top:0">求 <span data-k="\displaystyle\int_{-1}^{2}(3x^2-4)\,dx"></span></p><div id="try7"></div></div>
+
+<div class="step">PART 8</div>
+<h2>六個運算性質，用圖就看得懂</h2>
+<p>不用硬背。<b>每個都按一次</b>，看動畫：</p>
+<div class="card">
+<svg class="fig" id="g8" role="img" aria-label="定積分運算性質的動畫"></svg>
+<div class="seg g3" id="b8" data-hint></div>
+<div class="fm" id="f8"></div>
+<p class="say" id="s8" aria-live="polite"></p>
+</div>
+<div class="no"><b>✗ 乘法不能拆</b><br><span data-k="\int f(x)g(x)\,dx"></span> <b>不是</b>兩個積分相乘。例：<span data-k="\int_0^1x\cdot x\,dx=\frac13"></span>，但 <span data-k="\int_0^1x\,dx\cdot\int_0^1x\,dx=\frac14"></span>。</div>
+
+<div class="step">PART 9</div>
+<h2>全部合起來：多項式的定積分</h2>
+<div class="fm" style="font-size:16.5px"><span data-k="\displaystyle\begin{aligned}&\int_a^b(a_nx^n+\cdots+a_1x+a_0)\,dx\\&=\left(\frac{a_n}{n+1}x^{n+1}\right.\\&\qquad\left.+\cdots+\frac{a_1}{2}x^2+a_0x\right)\Big|_a^b\end{aligned}"></span></div>
+<p>就是 PART 4 的「一項一項積」加上 PART 7 的「上減下」。求 <span data-k="\int_0^2(4x^3-6x^2+2x+5)\,dx"></span>：</p>
+<div class="card" id="st9"></div>
+<div class="key">一句話收尾：<b>找反導函數 → 上限代進去 − 下限代進去。</b></div>
+
+<div class="step">自我檢查</div>
+<h2>六題小測</h2>
+<div class="card" id="quiz"></div>
+<div class="card">
+<b>用自己的話說：為什麼算定積分，只要把反導函數的兩個值相減？</b>
+<textarea id="own" rows="4" placeholder="可以用水表來說明" aria-label="用自己的話說明"></textarea>
+<div class="btns"><button class="btn" id="copy">複製我的作答</button></div>
+<div class="msg" id="msg" aria-live="polite"></div>
+</div>
+<a class="btn next" href="integral-page6_7.html?openExternalBrowser=1">下一頁：積分page6_7教學 →</a>
+<a class="btn ghost next" href="integral-page3.html?openExternalBrowser=1">← 回積分page3教學</a>
+<div class="foot">按「複製我的作答」後，貼到 LINE 傳回。</div>
+</div>
+<script src="vendor/katex/katex.min.js"></script>
+<script src="vendor/motion.js"></script>
+<script src="common.js?v=2"></script>
+<script src="plot.js?v=1"></script>
+<script src="integral-page4_5.js?v=1"></script>
+</body>
+</html>

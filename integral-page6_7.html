@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#fbfaf7">
+<meta property="og:title" content="積分page6_7教學">
+<meta property="og:description" content="定積分與面積：在 x 軸下面怎麼辦？上下都有怎麼辦？奇函數與偶函數的捷徑。">
+<script src="line.js"></script>
+<title>積分page6_7教學</title>
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css?v=6">
+</head>
+<body>
+<div id="bar"></div>
+<div class="wrap">
+<a class="back" href="index.html?openExternalBrowser=1">← 回課程首頁</a>
+<div class="course-id">第三章 積分</div>
+<h1>積分page6_7教學</h1>
+<p class="sub">對照課本「四、定積分與面積」的兩頁。</p>
+<div class="qr"><img src="qr-page6_7.svg" width="136" height="136" alt="本頁網址的 QR code"><div><b>用 iPad 看更清楚</b><br>打開 iPad 相機，掃左邊的 QR code，就能換成大螢幕閱讀。</div></div>
+
+<div class="card goal">
+<b>page3 說過：定積分像「結餘」，可能是負的。</b>
+<p>那題目要你求<b>面積</b>時，怎麼辦？這一頁只要記住一句話：</p>
+<p style="margin-bottom:0;text-align:center;font-size:21px"><b>面積，每一塊都要算成正的。</b></p>
+</div>
+
+<div class="step">PART 1</div>
+<h2>圖形在 <span data-k="x"></span> 軸上面：直接積</h2>
+<p>當 <span data-k="f(x)\ge0"></span>，面積就是 <span data-k="\int_a^bf(x)\,dx"></span>。這個 page3 學過了。</p>
+<div class="card">
+<svg class="fig" id="g1" role="img" aria-label="曲線在 x 軸上方，細條由左到右塗滿區域"></svg>
+<div class="btns" data-hint><button class="btn" id="p1">▶ 一條一條加</button></div>
+<div class="fm"><span data-k="\displaystyle\text{面積}=\int_a^bf(x)\,dx"></span></div>
+</div>
+
+<div class="step">PART 2</div>
+<h2>圖形在 <span data-k="x"></span> 軸下面：翻上來</h2>
+<p>當 <span data-k="f(x)\le0"></span>，整塊都在下面，定積分是<b class="cr">負的</b>。</p>
+<p>面積不能是負的，怎麼辦？<b>像翻書一樣，沿著 <span data-k="x"></span> 軸翻上來。</b>大小不會變：</p>
+<div class="card">
+<svg class="fig" id="g2" role="img" aria-label="x 軸下方的區域 R1，沿 x 軸翻到上方變成 R2"></svg>
+<div class="seg" id="b2" data-hint><button data-m="0" class="on">在下面</button><button data-m="1">翻上來</button></div>
+<div class="sl"><output id="k2-o">翻 0%</output><input id="k2" type="range" min="0" max="100" value="0" aria-label="翻多少"></div>
+<p class="say" id="s2" aria-live="polite"></p>
+</div>
+<p>翻上來以後，每個高度都<b>變號</b>：<span data-k="f(x)"></span> 變成 <span data-k="-f(x)"></span>。</p>
+<div class="key">當 <span data-k="f(x)\le0"></span>，面積是<br><span data-k="\displaystyle\int_a^b\bigl(-f(x)\bigr)dx=\textcolor{#c81e2d}{-}\int_a^bf(x)\,dx"></span></div>
+<h3>算一個看看：<span data-k="f(x)=x^2-2x"></span>，0 到 2</h3>
+<div class="card" id="st2"></div>
+<div class="no"><b>✗ 看到面積是負的，只把負號擦掉</b><br>要先說明「圖形在 <span data-k="x"></span> 軸下方，所以加負號」，再算。</div>
+
+<div class="step">PART 3</div>
+<h2>有上有下：一塊一塊來</h2>
+<p><span data-k="f(x)=x^2-4x+3"></span>，從 0 到 4。它穿過 <span data-k="x"></span> 軸兩次，切成三塊。<b>三塊都點點看：</b></p>
+<div class="card">
+<svg class="fig" id="g3" role="img" aria-label="拋物線與 x 軸圍成 R1、R2、R3 三塊"></svg>
+<div class="seg" id="b3" data-hint><button data-i="0">R₁</button><button data-i="1">R₂</button><button data-i="2">R₃</button></div>
+<div class="stats"><div>定積分<b id="i3">?</b></div><div>面積<b id="a3">?</b></div></div>
+<p class="say" id="s3" aria-live="polite">按一塊，看它的定積分和面積。</p>
+</div>
+<h3>同一張圖，兩個問題</h3>
+<p>想像<b class="cb">藍色是土堆</b>，<b class="cr">紅色是坑洞</b>。</p>
+<div class="card">
+<svg class="fig" id="g4" role="img" aria-label="土堆填進坑洞，或把坑洞翻上來"></svg>
+<div class="seg" id="b4" data-hint><button data-m="i">求定積分<br>（土填坑）</button><button data-m="a">求面積<br>（翻上來）</button></div>
+<div class="fm" id="f4"></div>
+<p class="say" id="s4" aria-live="polite">兩個都按按看，答案一樣嗎？</p>
+</div>
+<table class="cmp">
+<tr><th></th><th class="cb">定積分</th><th class="ch">面積</th></tr>
+<tr><th>在問</th><td>結餘多少</td><td>總共多大</td></tr>
+<tr><th>上面的</th><td>加</td><td>加</td></tr>
+<tr><th>下面的</th><td><b class="cr">減</b></td><td><b>加</b></td></tr>
+<tr><th>這一題</th><td><span data-k="\frac43-\frac43+\frac43"></span><br><span data-k="=\frac43"></span></td><td><span data-k="\frac43+\frac43+\frac43"></span><br><span data-k="=4"></span></td></tr>
+</table>
+<div class="key"><b>定積分 ＝ 上方面積和 − 下方面積和</b></div>
+<p>寫成式子，中間那塊 <span data-k="R_2"></span> 的積分是負的，前面再加一個負號，就變正的：</p>
+<div class="fm"><span data-k="\displaystyle\begin{aligned}\text{面積}&=\int_a^cf(x)\,dx\textcolor{#c81e2d}{-}\int_c^df(x)\,dx\\&\quad+\int_d^bf(x)\,dx\end{aligned}"></span></div>
+
+<div class="step">PART 4</div>
+<h2>求面積四步驟</h2>
+<p><span data-k="f(x)=x^2-1"></span> 的圖形與 <span data-k="x"></span> 軸、<span data-k="x=0"></span>、<span data-k="x=2"></span> 圍成的面積是多少？</p>
+<div class="card">
+<svg class="fig" id="g5" role="img" aria-label="拋物線 x 平方減 1 在 0 到 2 的圖形"></svg>
+<div id="st5"></div>
+</div>
+<div class="no"><b>✗ 沒畫圖，直接從 0 積到 2</b><br><span data-k="\int_0^2(x^2-1)\,dx=\frac23"></span>，這是<b>結餘</b>，不是面積。面積是 2。</div>
+
+<div class="step">PART 5</div>
+<h2>奇函數：一正一負，剛好抵消</h2>
+<p><b>奇函數</b>的圖形對<b>原點</b>對稱：繞著原點<b>轉半圈</b>，會跟自己重疊。按按看：</p>
+<div class="card">
+<svg class="fig" id="g6" aria-label="三次函數，右邊的區域繞原點轉半圈，跟左邊重疊"></svg>
+<div class="btns" data-hint><button class="btn" id="p6">▶ 轉半圈</button></div>
+<p class="say" id="s6" aria-live="polite">也可以拖圓點，換 a 的位置。</p>
+</div>
+<div class="key">若 <span data-k="f(x)"></span> 是<b>奇函數</b>，<span data-k="\displaystyle\int_{-a}^{a}f(x)\,dx=0"></span></div>
+
+<div class="step">PART 6</div>
+<h2>偶函數：左右一樣，算一半就好</h2>
+<p><b>偶函數</b>的圖形對 <b><span data-k="y"></span> 軸</b>對稱：沿著 <span data-k="y"></span> 軸<b>對摺</b>，會跟自己重疊。</p>
+<div class="card">
+<svg class="fig" id="g7" aria-label="拋物線，右邊的區域沿 y 軸對摺，跟左邊重疊"></svg>
+<div class="btns" data-hint><button class="btn" id="p7">▶ 對摺</button></div>
+<p class="say" id="s7" aria-live="polite">也可以拖圓點，換 a 的位置。</p>
+</div>
+<div class="key">若 <span data-k="f(x)"></span> 是<b>偶函數</b>，<span data-k="\displaystyle\int_{-a}^{a}f(x)\,dx=2\int_0^af(x)\,dx"></span></div>
+
+<h3>怎麼認出奇、偶函數？</h3>
+<p>多項式看<b>次方</b>就知道：</p>
+<ul>
+<li>只有<b>奇數次方</b>（<span data-k="x,\ x^3,\ x^5"></span>…）→ <b class="cr">奇函數</b></li>
+<li>只有<b>偶數次方</b>（常數、<span data-k="x^2,\ x^4"></span>…）→ <b class="cg">偶函數</b></li>
+<li>兩種<b>都有</b> → 都不是</li>
+</ul>
+<p class="tip">常數也算偶數次方，因為 <span data-k="5=5x^0"></span>，0 是偶數。</p>
+<div class="card" id="try7"></div>
+
+<h3>最好用的地方：混在一起也能拆</h3>
+<p>求 <span data-k="\int_{-2}^{2}(x^3+3x^2-5x+1)\,dx"></span></p>
+<div class="card">
+<svg class="fig" id="g8" viewBox="0 0 360 120" role="img" aria-label="四個項，奇數次方的項消失，偶數次方的項留下"></svg>
+<div id="st8"></div>
+</div>
+<div class="no"><b>✗ 看到奇函數就寫 0</b><br>上下限一定要<b>對稱</b>（<span data-k="-a"></span> 到 <span data-k="a"></span>）才行。<span data-k="\int_0^2x^3\,dx=4"></span>，不是 0。</div>
+<div class="no"><b>✗ 奇函數的面積是 0</b><br>0 是<b>結餘</b>。<span data-k="y=x^3"></span> 在 <span data-k="-1"></span> 到 <span data-k="1"></span>，定積分是 0，面積是 <span data-k="\frac12"></span>。</div>
+
+<div class="step">自我檢查</div>
+<h2>六題小測</h2>
+<div class="card" id="quiz"></div>
+<div class="card">
+<b>用自己的話說：「定積分」和「面積」差在哪裡？</b>
+<textarea id="own" rows="4" placeholder="可以用土堆和坑洞來說明" aria-label="用自己的話說明"></textarea>
+<div class="btns"><button class="btn" id="copy">複製我的作答</button></div>
+<div class="msg" id="msg" aria-live="polite"></div>
+</div>
+<a class="btn ghost next" href="integral-page4_5.html?openExternalBrowser=1">← 回積分page4_5教學</a>
+<div class="foot">按「複製我的作答」後，貼到 LINE 傳回。</div>
+</div>
+<script src="vendor/katex/katex.min.js"></script>
+<script src="vendor/motion.js"></script>
+<script src="common.js?v=2"></script>
+<script src="plot.js?v=1"></script>
+<script src="integral-page6_7.js?v=1"></script>
+</body>
+</html>
