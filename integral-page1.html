@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light">
 <meta name="theme-color" content="#fbfaf7">
 <meta property="og:title" content="積分page1教學">
-<meta property="og:description" content="積分是什麼？把曲線下的面積切開、變成矩形、再加起來。">
+<meta property="og:description" content="積分是什麼？為什麼要切？從像素和河邊的一塊地開始。">
 <script src="line.js"></script>
 <title>積分page1教學</title>
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
@@ -23,25 +23,40 @@
 
 <div class="step">先聊聊</div>
 <h2>積分到底是什麼？</h2>
-<p>我會這樣說：<b>積分，就是把「一直在變的東西」加總起來的方法。</b></p>
-<p>用開車來想。車速固定時，路程＝速度 × 時間，一個乘法就好。可是車速忽快忽慢呢？兩種都開開看：</p>
+<p><b>積分，就是用「切碎再加起來」的方法，算出不規則的東西有多大。</b></p>
+
+<p style="margin-top:22px"><b class="cb">為什麼要切？</b></p>
+<p>長方形的面積，長 × 寬就好。可是邊一彎，就沒有這種公式能直接套。</p>
+<p>那就把它<b>切成很多小塊，小到每一塊都很像長方形</b>，一塊一塊算，再全部加起來。</p>
+<p>你每天都在看這招。手機照片放到很大，會看到一格一格的正方形；格子夠小，看起來就是平滑的曲線。<b>直的小格子，也能拼出彎的形狀。</b></p>
 <div class="card">
-<svg class="fig" id="gi" viewBox="0 0 360 296" role="img" aria-label="速度與時間的圖，車子前進時曲線下的面積跟著填滿"></svg>
-<div class="stats"><div>時間<b id="i-t">0.0 秒</b></div><div>現在速度<b id="i-v"></b></div><div>走了<b id="i-d" class="cg">0.0 公尺</b></div></div>
-<div class="seg" id="i-m"><button data-m="0" class="on">車速固定</button><button data-m="1">忽快忽慢</button></div>
-<div class="btns" data-hint><button class="btn" id="i-go">▶ 開車</button></div>
-<p class="say" id="i-say" aria-live="polite">看藍色那塊：車子走多遠，它就填多少。</p>
+<svg class="fig" id="gp" viewBox="0 0 360 236" role="img" aria-label="用正方形格子拼成的圓，格子越小越平滑"></svg>
+<div class="sl"><output id="px-o"></output><button data-for="px" data-d="-2" aria-label="格子變大">−</button><input id="px" type="range" min="4" max="120" step="2" value="6" aria-label="一排幾格"><button data-for="px" data-d="2" aria-label="格子變小">+</button></div>
+<div class="btns" data-hint><button class="btn" id="px-go">▶ 格子變小</button></div>
+<p class="say" id="px-say" aria-live="polite"></p>
 </div>
-<p>那怎麼算曲線下的面積？把時間切成很多小段，每段短到車速<b>幾乎沒變</b>，就能用「速度 × 時間」，最後全部加起來。</p>
-<p class="tip">可以這樣記：「<b>分</b>」是切成小份，「<b>積</b>」是累積起來。<b>積分＝先切小，再加總。</b></p>
-<p><b>這招用在哪？</b>只要「每一刻都在變，但想知道總共多少」，都用得上：</p>
+
+<p style="margin-top:22px"><b class="cb">換成數學：河邊的一塊地</b></p>
+<p>有一塊地，左、右、下三邊都是直的，上面那一邊是彎彎的河岸。面積是多少？</p>
+<ol><li><b>切</b>：把地切成一條一條。</li><li><b>算</b>：每一條當成長方形，寬 × 高。</li><li><b>加</b>：全部加起來。</li></ol>
+<div class="card">
+<svg class="fig" id="gi" viewBox="0 0 360 222" role="img" aria-label="三邊直、一邊是河岸的地，切成長條後用長方形估算面積"></svg>
+<div class="small" style="text-align:center"><span class="cr">紅</span>＝多算的　<span class="cg">綠</span>＝少算的</div>
+<div class="stats"><div>算出的面積<b id="l-s"></b></div><div>真正面積<b>30</b></div><div>相差<b id="l-e" class="cr"></b></div></div>
+<div class="sl"><output id="ln-o"></output><button data-for="ln" data-d="-1" aria-label="少切一條">−</button><input id="ln" type="range" min="1" max="100" value="4" aria-label="切成幾條"><button data-for="ln" data-d="1" aria-label="多切一條">+</button></div>
+<div class="btns" data-hint><button class="btn" id="l-go">▶ 越切越細</button></div>
+<p class="say" id="l-say" aria-live="polite"></p>
+</div>
+<p>不過，只要還切得完，通常就還差一點點。數學家再往前一步，問：<b>一直切下去，答案會越來越靠近哪個數？</b>那個數就是真正的面積。</p>
+<p class="tip">「<b>分</b>」是切小，「<b>積</b>」是累積。<b>積分＝先切小，再加起來。</b></p>
+
+<p style="margin-top:22px"><b class="cb">還能用在哪？</b></p>
 <ul class="uses">
-<li><span aria-hidden="true">🚗</span><div>車速一直變，<b>總共走多遠</b>？</div></li>
-<li><span aria-hidden="true">💧</span><div>水流忽大忽小，<b>總共流了多少水</b>？</div></li>
-<li><span aria-hidden="true">🔌</span><div>用電忽高忽低，<b>這個月共幾度電</b>？</div></li>
-<li><span aria-hidden="true">🍉</span><div>西瓜切片每片大小不同，<b>整顆體積多大</b>？醫院也能用斷層掃描的一片片影像估算器官體積。</div></li>
+<li><span aria-hidden="true">🌭</span><div>粗細不一的香腸：切成薄片，每片當成圓柱，加起來就是<b>體積</b>。</div></li>
+<li><span aria-hidden="true">💧</span><div>忽大忽小的水流：切成很短的時間，每段當成流量不變，加起來就是<b>總水量</b>。</div></li>
+<li><span aria-hidden="true">🏥</span><div>斷層掃描：一片一片影像加起來，估算<b>器官體積</b>。</div></li>
 </ul>
-<p>這些問題畫成圖，都是同一題：<b>求曲線下的面積</b>。所以課本從面積開始教。</p>
+<p>切的東西不同，想法都一樣。<b>接下來，先從面積學起。</b></p>
 
 <div class="card goal">
 <b>課本求面積，分三步驟：</b>
@@ -62,7 +77,7 @@
 
 <div class="step">PART 1</div>
 <h2>先看清楚：要算的是哪一塊？</h2>
-<p>區域 <span data-k="R"></span> 由四條邊圍成。點按鈕，把邊一條一條畫上去。</p>
+<p>把剛才那塊地放到座標上，叫做區域 <span data-k="R"></span>，它由四條邊圍成。點按鈕，把邊一條一條畫上去。</p>
 <div class="card">
 <svg class="fig" id="g1" viewBox="0 0 360 290" role="img" aria-label="曲線 y=f(x)、x 軸、x=a、x=b 圍成的區域 R"></svg>
 <div class="seg" id="edges" data-hint><button data-e="0"><span data-k="y=f(x)"></span></button><button data-e="1"><span data-k="y=0"></span></button><button data-e="2"><span data-k="x=a"></span></button><button data-e="3"><span data-k="x=b"></span></button></div>
@@ -132,6 +147,6 @@
 <script src="vendor/katex/katex.min.js"></script>
 <script src="vendor/motion.js"></script>
 <script src="common.js?v=2"></script>
-<script src="integral-page1.js?v=2"></script>
+<script src="integral-page1.js?v=3"></script>
 </body>
 </html>

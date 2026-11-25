@@ -1,47 +1,68 @@
 (() => {
 'use strict';
 
-// ── 先聊聊：開車
+// ── 先聊聊 1：像素圓
 (() => {
-  const s = $('#gi'), TX = t => 40 + t * 47, VY = v => 172 - v * 22, RX = d => 34 + d * 9.4, CV = 5;
-  const vf = t => f(t + A), dist = u => u ** 4 / 24 - 1.625 * u ** 3 / 3 + 2.25 * u * u + 2 * u;
-  let mode = 0, k = 0, t = 0, an, mo; // k：0 固定 → 1 變速
-  const v = x => lerp(CV, vf(x), k), d = x => lerp(CV * x, dist(x), k);
-  const area = el('path', {fill: '#9fd0ec'}, s), line = el('path', {fill: 'none', stroke: C.b, 'stroke-width': 3}, s);
-  el('path', {d: 'M34 172H340M40 178V22', stroke: C.ink, 'stroke-width': 1.6, fill: 'none'}, s);
-  el('path', {d: 'M340 167l9 5l-9 5zM35 22l5 -9l5 9z', fill: C.ink}, s);
-  el('text', {x: 52, y: 20}, s).textContent = '速度（公尺／秒）';
-  el('text', {x: 352, y: 206, 'text-anchor': 'end', style: 'font-size:14px'}, s).textContent = '時間（秒）';
-  for (let i = 0; i <= 6; i++) mt(s, TX(i), 191, String(i));
-  const vl = el('path', {stroke: C.w, 'stroke-width': 2.5}, s), dot = el('circle', {r: 5, fill: C.w}, s);
-  el('path', {d: 'M14 262H346', stroke: '#6b7682', 'stroke-width': 16, 'stroke-linecap': 'round'}, s);
-  el('path', {d: 'M20 262H340', stroke: '#fff', 'stroke-width': 2, 'stroke-dasharray': '10 8'}, s);
-  const trail = el('path', {stroke: '#9fd0ec', 'stroke-width': 6}, s);
-  el('text', {x: RX(30), y: 246, style: 'font-size:22px'}, s).textContent = '🏁';
-  mt(s, RX(0), 290, '0'); mt(s, RX(30), 290, '30'); el('text', {x: RX(15), y: 290, 'text-anchor': 'middle', style: 'font-size:14px'}, s).textContent = '公尺';
-  const car = el('g', {}, s); el('text', {transform: 'scale(-1 1)', 'text-anchor': 'middle', style: 'font-size:30px'}, car).textContent = '🚗';
-  const draw = () => {
-    const p = xs(0, 6, 80).map(x => [TX(x), VY(v(x))]); line.setAttribute('d', poly(p));
-    area.setAttribute('d', poly([[TX(0), VY(0)], ...xs(0, t, 60).map(x => [TX(x), VY(v(x))]), [TX(t), VY(0)]], true));
-    vl.setAttribute('d', `M${TX(t)} ${VY(0)}V${VY(v(t))}`); set(dot, {cx: TX(t), cy: VY(v(t))});
-    car.setAttribute('transform', `translate(${RX(d(t))} 260)`); trail.setAttribute('d', `M${RX(0)} 262H${RX(d(t))}`);
-    $('#i-t').textContent = `${fx(t, 1)} 秒`; $('#i-v').textContent = `每秒 ${fx(v(t), 1)}`; $('#i-d').textContent = `${fx(d(t), 1)} 公尺`;
+  const s = $('#gp'), cx = 180, cy = 118, R = 104, I = $('#px');
+  const p = el('path', {fill: C.b, stroke: '#fff'}, s);
+  const ring = el('circle', {cx, cy, r: R, fill: 'none', stroke: '#f5a524', 'stroke-width': 2, 'stroke-dasharray': '5 4'}, s);
+  let an, run = 0, auto = 0;
+  const draw = (n, t) => { // 中心點落在圓內的格子才塗色；t 讓格子由小彈到滿
+    const w = 2 * R / n, k = w * Math.max(0, t), o = (w - k) / 2; let d = '';
+    if (n >= 48) for (let j = 0; j < n; j++) { // 格子很細時整列合併畫，省效能
+      const y = cy - R + w * j, m = Math.floor(Math.sqrt(R * R - (y + w / 2 - cy) ** 2) / w + .5) * w; d += `M${fx(cx - m)} ${fx(y)}h${fx(2 * m)}v${fx(w + .05)}h${fx(-2 * m)}z`;
+    } else for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) {
+      const x = cx - R + w * i, y = cy - R + w * j;
+      if (Math.hypot(x + w / 2 - cx, y + w / 2 - cy) <= R) d += `M${fx(x + o)} ${fx(y + o)}h${fx(k)}v${fx(k)}h${fx(-k)}z`;
+    }
+    p.setAttribute('d', d); p.setAttribute('stroke-width', n >= 48 ? 0 : Math.min(1.5, w / 14)); ring.setAttribute('opacity', n >= 36 ? 0 : 1);
   };
-  const END = ['速度 5 × 時間 6 ＝ <b>30 公尺</b>，剛好就是這塊<b>長方形的面積</b>。', '也走了 <b>30 公尺</b>，就是<b>曲線下的面積</b>。但速度一直變，沒辦法用一次乘法算出來。<b>積分就是來解決這件事的。</b>'];
-  const stop = () => { if (an) an.stop(); an = null; };
-  let run = 0;
-  $('#i-go').onclick = () => {
-    stop(); const my = ++run; if (mo) { mo.stop(); k = mode; }
-    $('#i-say').textContent = '看藍色那塊：車子走多遠，它就填多少。';
-    an = tween(q => { if (my !== run) return; t = 6 * q; draw(); }, {ease: 'linear', duration: 4.5, onComplete: () => { if (my === run) $('#i-say').innerHTML = END[mode]; }});
+  const upd = () => {
+    const n = +I.value; $('#px-o').textContent = `一排 ${n} 格`;
+    $('#px-say').textContent = n < 14 ? '格子很大，邊緣一階一階的，像馬賽克。' : n < 60 ? '格子變小，越來越像圓了。' : '每一格還是方的，遠看卻已經是平滑的圓。';
+    if (an) an.stop();
+    const my = ++run; an = tween(t => { if (my === run) draw(n, lerp(.55, 1, t)); }, {duration: .5, bounce: .3});
   };
-  $$('#i-m button').forEach(b => b.onclick = () => {
-    stop(); run++; t = 0; mode = +b.dataset.m; $$('#i-m button').forEach(e => e.classList.toggle('on', e === b));
-    if (mo) mo.stop();
-    const from = k; mo = tween(q => { k = lerp(from, mode, q); draw(); }, {duration: .8, bounce: .3});
-    $('#i-say').textContent = mode ? '車速變成一條曲線了。按「開車」看看走多遠。' : '車速固定，圖形是一條水平線。按「開車」。';
-  });
-  draw();
+  I.oninput = () => { auto++; upd(); };
+  $('#px-go').onclick = async () => { const my = ++auto; for (const n of [4, 8, 12, 20, 32, 48, 80, 120]) { if (my !== auto) return; I.value = n; upd(); await wait(.75); } };
+  upd();
+})();
+
+// ── 先聊聊 2：河邊的地（每條用左邊的高度）
+(() => {
+  const s = $('#gi'), I = $('#ln');
+  const bank = xs(A, B, 120).map(x => [X(x), Y(f(x))]);
+  s.setAttribute('viewBox', '4 8 360 222');
+  el('path', {d: areaPath(A, B), fill: '#f3e6c4'}, s);
+  el('path', {d: poly([[X(A), 14], ...bank, [X(B), 14]], true), fill: '#bfe0f5'}, s);
+  const flow = [0, 1, 2].map(k => el('path', {d: poly(xs(A, B, 60).map(x => [X(x), Math.max(20 + k * 4, Y(f(x)) - 14 - k * 15)])), fill: 'none', stroke: '#fff', 'stroke-width': 2, 'stroke-dasharray': '18 26', 'stroke-opacity': .9}, s));
+  const g = el('g', {}, s), over = el('path', {fill: '#e8828c', 'fill-opacity': .75}, s), under = el('path', {fill: '#5cc29a', 'fill-opacity': .75}, s);
+  el('path', {d: poly(bank), fill: 'none', stroke: C.b, 'stroke-width': 3.5, 'stroke-linecap': 'round'}, s);
+  el('path', {d: `M${X(A)} ${Y(f(A))}V${Y(0)}H${X(B)}V${Y(f(B))}`, fill: 'none', stroke: '#8a6d2f', 'stroke-width': 3}, s);
+  const tag = (x, y, t, at) => { el('text', {x, y, 'text-anchor': 'middle', style: 'font-size:15px;font-weight:700;paint-order:stroke;stroke:#fff;stroke-width:4px', ...at}, s).textContent = t; };
+  tag(X(5.3), 46, '河'); tag(X(4), Y(0) - 12, '地');
+  if (!reduce) Motion.inView(s, () => { const a = flow.map((p, k) => Motion.animate(0, -44, {duration: 1.6 + k * .4, ease: 'linear', repeat: Infinity, onUpdate: v => p.setAttribute('stroke-dashoffset', v)})); return () => a.forEach(q => q.stop()); });
+  let cur = [], an, run = 0, auto = 0;
+  const draw = hs => {
+    bars(g, hs, {fill: '#fff', 'fill-opacity': .35, stroke: '#8a6d2f'}); g.setAttribute('stroke-opacity', hs.length > 40 ? .45 : 1);
+    const n = hs.length, w = (B - A) / n, k = Math.max(3, Math.ceil(80 / n)); let o = '', u = '';
+    hs.forEach((h, i) => {
+      const q = xs(A + w * i, A + w * (i + 1), k), P = fn => q.map(x => [X(x), Y(fn(x))]), back = P(f).reverse();
+      o += poly([...P(x => Math.max(h, f(x))), ...back], true); u += poly([...P(x => Math.min(h, f(x))), ...back], true);
+    });
+    over.setAttribute('d', o); under.setAttribute('d', u);
+  };
+  const upd = () => {
+    const n = +I.value, w = (B - A) / n, to = Array.from({length: n}, (_, i) => f(A + w * i)), from = regrid(cur, n), S = to.reduce((a, b) => a + b, 0) * w;
+    $('#ln-o').textContent = `切 ${n} 條`; $('#l-s').textContent = fx(S); $('#l-e').textContent = fx(Math.abs(S - AREA));
+    $('#l-say').textContent = n < 8 ? '每條用左邊的高度當長方形的高。河岸邊有的多算、有的少算，誤差很明顯。' : n < 40 ? '切細一點，紅色和綠色都變小了。' : '切很多條，紅色和綠色快看不見了，答案很靠近 30。';
+    if (an) an.stop();
+    const my = ++run; cur = from; draw(cur);
+    an = tween(t => { if (my === run) { cur = to.map((v, j) => lerp(from[j], v, t)); draw(cur); } }, {duration: .6, bounce: .2});
+  };
+  I.oninput = () => { auto++; upd(); };
+  $('#l-go').onclick = async () => { const my = ++auto; for (const n of [2, 4, 8, 16, 32, 64, 100]) { if (my !== auto) return; I.value = n; upd(); await wait(1.1); } };
+  upd();
 })();
 
 // ── 暖身：割圓術
