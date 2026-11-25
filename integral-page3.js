@@ -106,7 +106,7 @@ const ab = s => { mt(s, X(A), Y(0) + 21, 'a'); mt(s, X(B), Y(0) + 21, 'b'); };
     const to = +I.value, from = c, my = ++run, v = 9 - 3 * to; if (an) an.stop();
     an = tween(t => { if (my === run) { c = lerp(from, to, t); draw(); } }, {duration: .6, bounce: .15});
     $('#c4-o').textContent = `往下 ${num(to)}`; K(to ? `\\int_0^3\\left(x^2-${num(to)}\\right)dx=${num(v)}` : '\\int_0^3x^2\\,dx=9', $('#f4'), true);
-    $('#s4').innerHTML = to === 0 ? '整條都在 x 軸<b>上方</b>（碰到也可以）。<b class="cg">定積分就是面積。</b>' : v > 0 ? '有一塊掉到 x 軸下面，變成負的，把上面抵消掉一些。<b class="cr">已經不是面積了。</b>' : v === 0 ? '上面和下面<b>剛好抵消</b>，定積分是 0。<b class="cr">可是圖上明明還有面積！</b>' : '下面比上面多，定積分是<b class="cr">負數</b>。面積不可能是負的，所以它不是面積。';
+    $('#s4').innerHTML = to === 0 ? '整條都在 x 軸<b>上方</b>（碰到也可以）。<b class="cg">定積分就是面積。</b>' : v > 0 ? '有一塊掉到 x 軸下面，變成負的，把上面抵消掉一些。<b class="cr">這個數不能直接當面積。</b>' : v === 0 ? '上面和下面<b>剛好抵消</b>，定積分是 0。<b class="cr">可是圖上明明還有面積！</b>怎麼求？PART 5 會教。' : '下面比上面多，定積分是<b class="cr">負數</b>。面積不可能是負的，所以<b>不能直接當面積</b>。';
   };
   I.oninput = () => { auto++; upd(); };
   $('#p4').onclick = async () => { const my = ++auto; for (const v of [0, 1, 2, 3, 4, 5, 6]) { if (my !== auto) return; I.value = v; upd(); await wait(1.4); } };
@@ -123,15 +123,46 @@ const ab = s => { mt(s, X(A), Y(0) + 21, 'a'); mt(s, X(B), Y(0) + 21, 'b'); };
     for (const v of [a, b]) P.vline(v, fn(v));
     return s.outerHTML;
   };
-  const o = ['是面積', '不是面積'];
+  const o = ['可以', '不行'];
   mini('#try', [
     {q: th(x => 2 + Math.sin(x * 1.6), 0, 4, [-.6, 3.4]), o, a: 0, w: '整條都在 x 軸上方。', h: '曲線有沒有掉到 x 軸下面？'},
-    {q: th(x => 1.6 - x * .9, 0, 4, [-2.4, 2]), o, a: 1, w: '右邊那塊在 x 軸下面，是負的，會抵消掉左邊。', h: '看紅色那塊，它算進去是正的還是負的？'},
+    {q: th(x => 1.6 - x * .9, 0, 4, [-2.4, 2]), o, a: 1, w: '右邊那塊在 x 軸下面，是負的，會抵消掉左邊。（要分塊處理，PART 5 會教。）', h: '看紅色那塊，它算進去是正的還是負的？'},
     {q: th(x => (x - 2) * (x - 2) * .6, 0, 4, [-.5, 2.8]), o, a: 0, w: `只是<b>碰到</b> x 軸，沒有掉下去，${ks('f(x)\\ge0')} 還是成立。`, h: `條件是 ${ks('f(x)\\ge0')}，等於 0 可以嗎？`},
-    {q: th(x => -1.6 - Math.cos(x * 1.5) * .7, 0, 4, [-3, .6]), o, a: 1, w: '整塊都在下面，定積分是負數，面積不會是負的。', h: '這塊算出來是正的還是負的？面積可以是負的嗎？'}]);
+    {q: th(x => -1.6 - Math.cos(x * 1.5) * .7, 0, 4, [-3, .6]), o, a: 1, w: '整塊都在下面，定積分是負數，不能直接當面積。（加絕對值就可以了，PART 5 會教。）', h: '這塊算出來是正的還是負的？面積可以是負的嗎？'}]);
 })();
 
-// ── PART 5：x² 在 [0,1]，n=4
+// ── PART 5：加絕對值
+(() => {
+  const P = plot('#g7', {x: [-.5, 4.7], y: [-4.5, 4.5], h: 280, pad: [14, 20, 14, 26]}), s = P.s;
+  const bl = el('path', {fill: C.bl}, s), gh = el('path', {fill: '#fbeaec'}, s), rd = el('path', {}, s); P.axes({o: false});
+  const ln = el('path', {stroke: C.b, 'stroke-width': 3, 'stroke-linecap': 'round'}, s), sd = el('path', {stroke: C.ink, 'stroke-width': 1.6}, s), lb = el('g', {}, s);
+  mt(s, P.X(0) - 11, P.Y(0) + 18, '0'); mt(s, P.X(4) + 12, P.Y(0) + 20, '4');
+  let c = 2, run = 0;
+  const g = x => x - c, scene = () => { ln.setAttribute('d', P.path(0, 4, g, 2)); sd.setAttribute('d', `M${P.X(0)} ${P.Y(0)}V${P.Y(g(0))}M${P.X(4)} ${P.Y(0)}V${P.Y(g(4))}`); bl.setAttribute('d', c < 4 ? P.fill(c, 4, g) : ''); set(bl, {opacity: 1}); rd.setAttribute('d', P.fill(0, c, g)); set(rd, {fill: C.rl, opacity: 1, transform: ''}); gh.setAttribute('d', ''); };
+  const tag = (x, y, t, col) => mt(lb, P.X(x), P.Y(y) + 7, t, {style: `fill:${col};font-size:21px;font-weight:700`});
+  $$('#b7 button').forEach(b => b.onclick = async () => {
+    const my = ++run, m = b.dataset.m, from = c, to = m === 'd' ? 4 : 2, ok = () => my === run, go = (cb, o) => play(t => { if (ok()) cb(t); }, o);
+    onOnly('#b7', b); lb.textContent = ''; $('#f7').textContent = ''; $('#s7').textContent = m === 'x' ? '先全部加起來…' : '先看定積分…'; scene();
+    if (from !== to) await go(t => { c = lerp(from, to, t); scene(); }, {ease: 'easeInOut', duration: .7}); if (!ok()) return;
+    c = to; scene();
+    const q = {d: ['\\int_0^4(x-4)\\,dx=-8', () => tag(1.3, -1.2, '−8', C.r)], h: ['\\text{左邊}=-2,\\quad\\text{右邊}=2', () => { tag(.62, -.62, '−2', C.r); tag(3.4, .6, '2', C.b); }], x: ['-2+2=0', () => { tag(.62, -.62, '−2', C.r); tag(3.4, .6, '2', C.b); }]}[m];
+    K(q[0], $('#f7'), true); q[1](); await wait(1.3); if (!ok()) return; lb.textContent = '';
+    if (m === 'x') {
+      rd.setAttribute('fill-opacity', .85); await go(t => rd.setAttribute('transform', `rotate(${180 * t} ${P.X(2)} ${P.Y(0)})`), {ease: 'easeInOut', duration: 1.4}); if (!ok()) return;
+      await go(t => { rd.setAttribute('opacity', 1 - t); bl.setAttribute('opacity', 1 - t); }, {ease: 'easeIn', duration: .7}); if (!ok()) return;
+      tag(2.4, 2.6, '抵消光了', C.r); K('\\lvert-2+2\\rvert=|0|=0\\quad\\text{✗}', $('#f7'), true); $('#s7').innerHTML = '一正一負先抵消，剩 0，<b class="cr">再取絕對值也來不及了</b>。圖上明明有兩個三角形。'; return;
+    }
+    $('#s7').textContent = '在下面的那塊，取絕對值，翻上來…'; gh.setAttribute('d', P.fill(0, c, g));
+    await go(t => { const k = Math.cos(Math.PI * t); rd.setAttribute('d', P.fill(0, c, x => g(x) * k)); rd.setAttribute('fill', k > 0 ? C.rl : C.gl); }, {ease: 'easeInOut', duration: 1.5}); if (!ok()) return;
+    if (m === 'd') { tag(1.3, 1.3, '8', C.g); K('\\text{面積}=\\lvert-8\\rvert=8', $('#f7'), true); $('#s7').innerHTML = '整塊都在下面，<b class="cg">直接取絕對值就是面積</b>。檢查：底 4、高 4，4 × 4 ÷ 2 ＝ 8 ✓'; } else { tag(.62, .62, '2', C.g); tag(3.4, .6, '2', C.b); K('\\text{面積}=\\lvert-2\\rvert+2=4', $('#f7'), true); $('#s7').innerHTML = '<b>只有下面那塊</b>取絕對值，上面那塊不動，再相加。檢查：兩個底 2、高 2 的三角形，2 ＋ 2 ＝ 4 ✓'; }
+  });
+  scene();
+  mini('#try5', [
+    {q: `整塊都在 x 軸下面，${ks('\\displaystyle\\int_a^bf(x)\\,dx=-6')}，面積是多少？`, o: [ks('-6'), '6', '沒有面積'], a: 1, w: `${ks('\\lvert-6\\rvert=6')}。`, h: ['面積不會是負的。', '', '在下面還是有面積，只是帶了負號。']},
+    {q: `左邊在上面，定積分是 ${ks('5')}；右邊在下面，定積分是 ${ks('-2')}。總面積是多少？`, o: ['3', '7', '10'], a: 1, w: `${ks('5+\\lvert-2\\rvert=7')}。`, h: ['3 是先相加抵消的結果。要<b>先取絕對值，再相加</b>。', '', '這是相乘，面積要用加的。']}]);
+})();
+
+// ── PART 6：x² 在 [0,1]，n=4
 (() => {
   const sq = x => x * x, P = plot('#g5', {x: [-.06, 1.12], y: [0, 1.1], h: 268, pad: [16, 18, 32, 34]}), s = P.s;
   const reg = el('path', {d: P.fill(0, 1, sq), fill: C.bl}, s), gU = el('g', {}, s), gL = el('g', {}, s);
@@ -160,7 +191,7 @@ const ab = s => { mt(s, X(A), Y(0) + 21, 'a'); mt(s, X(B), Y(0) + 21, 'b'); };
   });
 })();
 
-// ── PART 6：換成 n
+// ── PART 7：換成 n
 stepper('#st6', [
   {h: '切成 n 段', t: `${KW('\\Delta x=\\frac1n')},\\qquad x_i=\\frac{i}{n}`, s: `分割點是 ${ks('\\frac1n')}、${ks('\\frac2n')}、${ks('\\frac3n')}……一路到 ${ks('\\frac nn=1')}。`},
   {h: '每段的最高', t: KR('M_i=\\left(\\frac{i}{n}\\right)^2=\\frac{i^2}{n^2}'), s: `最高在右端 ${ks('x_i=\\frac in')}，代進 ${ks('x^2')}。`},
@@ -169,7 +200,7 @@ stepper('#st6', [
   {h: '(1) 上和', t: `\\begin{aligned}${KR('U_n')}&=\\frac{(n+1)(2n+1)}{6n^2}\\\\[4pt]&=${KR('\\frac{2n^2+3n+1}{6n^2}')}\\end{aligned}`, s: `代進去，約掉一個 ${ks('n')}。用 ${ks('n=4')} 檢查：${ks('\\frac{32+12+1}{96}=\\frac{15}{32}')}，和剛才一樣 ✓`},
   {h: '(2) 下和', t: `\\begin{aligned}${KG('L_n')}&=\\frac{0^2+1^2+\\cdots+(n-1)^2}{n^3}\\\\[4pt]&=${KG('\\frac{2n^2-3n+1}{6n^2}')}\\end{aligned}`, s: `最低在左端，所以從 ${ks('0^2')} 加到 ${ks('(n-1)^2')}。把平方和公式裡的 ${ks('n')} 換成 ${ks('n-1')}，再約分。`}]);
 
-// ── PART 6：取極限，小塊越來越小
+// ── PART 7：取極限，小塊越來越小
 (() => {
   const s = $('#g6'), U = 46, x0 = 24, I = $('#n6');
   el('text', {x: x0, y: 24, style: `fill:${C.r};font-weight:700`}, s).textContent = '上和的分子';
@@ -203,5 +234,7 @@ quiz({key: 'gsat-math-integral-page3', title: '積分page3教學', items: [
   {t: '定積分是 0 就沒有面積？', col: 1, q: `如果 ${ks('\\displaystyle\\int_a^bf(x)\\,dx=0')}（${ks('a<b')}），哪個對？`, o: ['圖形和 x 軸之間一定沒有面積', '可能是上面和下面剛好抵消', ks('f(x)') + ' 一定整條是 0'], plain: ['一定沒有面積', '可能上下抵消', 'f(x) 一定整條是 0'], a: 1,
     w: '就像有進有出，結餘剛好是 0。', h: '回 PART 3，把曲線往下搬 3，看看圖上還有沒有面積。'},
   {t: '(n²+2n+1)/(4n²) 的極限', q: `某個上和 ${ks('U_n=\\dfrac{n^2+2n+1}{4n^2}')}，${ks('n\\to\\infty')} 時會跑到哪裡？`, o: ['0', ks('\\frac14'), '1'], plain: ['0', '1/4', '1'], a: 1,
-    w: `上下都除以 ${ks('n^2')}：${ks('\\frac{1+\\frac2n+\\frac1{n^2}}{4}')}，後面兩塊都變成 0，剩 ${ks('\\frac14')}。`, h: `上下都除以 ${ks('n^2')}，再看哪幾塊會消失。`}]});
+    w: `上下都除以 ${ks('n^2')}：${ks('\\frac{1+\\frac2n+\\frac1{n^2}}{4}')}，後面兩塊都變成 0，剩 ${ks('\\frac14')}。`, h: `上下都除以 ${ks('n^2')}，再看哪幾塊會消失。`},
+  {t: '上方 4、下方 −3 的面積', q: `圖形有上有下。上面那塊的定積分是 ${ks('4')}，下面那塊的定積分是 ${ks('-3')}。<b>面積</b>是多少？`, o: ['1', '7', ks('|4-3|')], plain: ['1', '7', '|4−3|'], a: 1,
+    w: `下面那塊先取絕對值，再相加：${ks('4+\\lvert-3\\rvert=7')}。1 是定積分（結餘）。`, h: '先分塊，在下面的那塊取絕對值，再相加。不可以加完才取絕對值。'}]});
 })();

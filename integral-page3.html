@@ -25,7 +25,7 @@
 <div class="card goal">
 <b>page2 用上和、下和兩邊夾，夾到同一個數。</b>
 <p>這一頁要做三件事：</p>
-<ol style="margin-bottom:0"><li>替那個數<b>取名字</b>：定積分</li><li>看懂它什麼時候是<b>面積</b>，什麼時候不是</li><li><b>親手算一次</b></li></ol>
+<ol style="margin-bottom:0"><li>替那個數<b>取名字</b>：定積分</li><li>看懂它什麼時候<b>直接就是面積</b>，不是的話怎麼辦</li><li><b>親手算一次</b></li></ol>
 </div>
 
 <div class="step">PART 1</div>
@@ -82,12 +82,31 @@
 <p class="small">這個數怎麼算出來，page4_5 會教。這裡先看它是正是負。</p>
 
 <div class="step">PART 4</div>
-<h2>什麼時候，定積分才是面積？</h2>
-<div class="key"><b>只有 <span data-k="f(x)\ge0"></span>，也就是整條都不在 <span data-k="x"></span> 軸下面的時候。</b><br>這時 <span data-k="\int_a^bf(x)\,dx"></span> 就是圖形和 <span data-k="x=a"></span>、<span data-k="x=b"></span>、<span data-k="y=0"></span> 圍出來的面積。</div>
-<p>下面四張圖，定積分<b>是不是</b>面積？</p>
+<h2>什麼時候，定積分直接就是面積？</h2>
+<div class="key"><b>只有 <span data-k="f(x)\ge0"></span>，也就是整條都不在 <span data-k="x"></span> 軸下面的時候。</b><br>這時 <span data-k="\int_a^bf(x)\,dx"></span> 算出來的數，<b>直接</b>就是圖形和 <span data-k="x=a"></span>、<span data-k="x=b"></span>、<span data-k="y=0"></span> 圍出來的面積。</div>
+<p>下面四張圖，定積分算出來的數，<b>可以直接當面積嗎？</b></p>
 <div class="card" id="try"></div>
 
 <div class="step">PART 5</div>
+<h2>在下面，也能變成面積：加絕對值</h2>
+<p class="small">這一段是補充，課本這一頁沒有寫。</p>
+<p>在 <span data-k="x"></span> 軸下面的那塊，<b>大小沒有問題，只是帶了負號</b>。加上<b>絕對值</b>，負的變正的，就是面積。</p>
+<p>下面用直線圍成的<b>三角形</b>，你可以自己用「底 × 高 ÷ 2」檢查。三個都按按看：</p>
+<div class="card">
+<svg class="fig" id="g7" role="img" aria-label="直線與 x 軸圍成的三角形，下方的加絕對值翻到上方"></svg>
+<div class="seg" id="b7" data-hint><button data-m="d">整塊<br>在下面</button><button data-m="h">一半上<br>一半下</button><button data-m="x">✗ 加完才<br>取絕對值</button></div>
+<div class="fm" id="f7"></div>
+<p class="say" id="s7" aria-live="polite">按一個，看面積怎麼來。</p>
+</div>
+<div class="key"><b>① 整塊在下面</b>：直接取絕對值<br><span data-k="\displaystyle\text{面積}=\left|\int_a^bf(x)\,dx\right|"></span></div>
+<div class="key"><b>② 有上有下</b>（在 <span data-k="c"></span> 穿過 <span data-k="x"></span> 軸）：<b>先分塊</b>，在下面的那塊取絕對值，<b>再相加</b><br><span data-k="\displaystyle\begin{aligned}\text{面積}&=\left|\int_a^cf(x)\,dx\right|\\&\quad+\int_c^bf(x)\,dx\end{aligned}"></span><br><span class="small">（這裡是左邊在下、右邊在上）</span></div>
+<p>兩種情形可以合成一句：<b>先把每個高度都變成正的，再積分。</b></p>
+<div class="fm"><span data-k="\displaystyle\text{面積}=\int_a^b\left|f(x)\right|dx"></span></div>
+<div class="no"><b>✗ 整個加完，才取絕對值</b><br>上下已經先抵消了，來不及了。例如 <span data-k="\lvert-2+2\rvert=0"></span>，可是面積明明是 <span data-k="\lvert-2\rvert+2=4"></span>。</div>
+<h3>換你試試</h3>
+<div class="card" id="try5"></div>
+
+<div class="step">PART 6</div>
 <h2>課本範例 1：先切 4 段練習</h2>
 <p><span data-k="f(x)=x^2"></span> 的圖形與 <span data-k="y=0"></span>、<span data-k="x=0"></span>、<span data-k="x=1"></span> 圍成區域 <span data-k="R"></span>。把 <span data-k="[0,1]"></span> 等分成 <span data-k="n"></span> 段，求上和、下和與面積。</p>
 <p>一開始就用 <span data-k="n"></span> 會很抽象，<b>先用 4 段走一次</b>：</p>
@@ -96,7 +115,7 @@
 <div id="st5"></div>
 </div>
 
-<div class="step">PART 6</div>
+<div class="step">PART 7</div>
 <h2>把 4 換成 <span data-k="n"></span></h2>
 <p>做的事一模一樣，只是把數字 4 換成字母 <span data-k="n"></span>。</p>
 <div class="card" id="st6"></div>
@@ -114,10 +133,10 @@
 <p>算得很累對不對？<b>page4_5 有一條捷徑，一行就算完。</b></p>
 
 <div class="step">自我檢查</div>
-<h2>五題小測</h2>
+<h2>六題小測</h2>
 <div class="card" id="quiz"></div>
 <div class="card">
-<b>用自己的話說：為什麼定積分可能是負的？什麼時候它才是面積？</b>
+<b>用自己的話說：為什麼定積分可能是負的？圖形有上有下時，怎麼求面積？</b>
 <textarea id="own" rows="4" placeholder="兩三句就好" aria-label="用自己的話說明"></textarea>
 <div class="btns"><button class="btn" id="copy">複製我的作答</button></div>
 <div class="msg" id="msg" aria-live="polite"></div>
@@ -130,6 +149,6 @@
 <script src="vendor/motion.js"></script>
 <script src="common.js?v=2"></script>
 <script src="plot.js?v=1"></script>
-<script src="integral-page3.js?v=1"></script>
+<script src="integral-page3.js?v=2"></script>
 </body>
 </html>
