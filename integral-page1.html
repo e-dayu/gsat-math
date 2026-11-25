@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#fbfaf7">
+<title>積分page1教學</title>
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="bar"></div>
+<div class="wrap">
+<a class="back" href="index.html">← 回課程首頁</a>
+<div class="course-id">第三章 §3-1 積分的意義</div>
+<h1>積分page1教學</h1>
+<p class="sub">對照課本第 111 頁。圖都可以動手操作。</p>
+
+<div class="card goal">
+<b>曲線下的面積，沒有現成公式，怎麼算？</b>
+<p>切成很多條，每條當成矩形，再全部加起來。</p>
+<ol class="path"><li class="on">1 分割</li><li>2 逼近</li><li>3 求極限</li></ol>
+<p class="small" style="margin-bottom:0">課本求面積分三步驟。這一頁教第 1 步，學到「黎曼和」為止。</p>
+</div>
+
+<div class="step">暖身</div>
+<h2>劉徽的割圓術：越切越準</h2>
+<p>西元 263 年，劉徽用圓內接正多邊形去填滿一個圓。<span class="cb">藍色</span>是多邊形，<span class="cr">紅色</span>是還沒填到的部分，也就是他說的「所失」。</p>
+<div class="card">
+<svg class="fig" id="g0" viewBox="0 0 360 290" role="img" aria-label="圓內接正多邊形，邊數加倍時越來越接近圓"></svg>
+<div class="stats"><div>邊數<b id="c-n">6</b></div><div>多邊形面積<b id="c-a"></b></div><div>所失<b id="c-d" class="cr"></b></div></div>
+<div class="quote" id="quote"><span>割之彌細，所失彌少。</span><br><span>割之又割，以至於不可割，</span><br><span>則與圓周合體而無所失矣。</span></div>
+<div class="btns"><button class="btn" id="c-cut">割之又割（邊數 ×2）</button><button class="btn ghost" id="c-re">重來</button></div>
+<p class="say" id="c-say" aria-live="polite"></p>
+</div>
+
+<div class="step">PART 1</div>
+<h2>先看清楚：要算的是哪一塊？</h2>
+<p>區域 <span data-k="R"></span> 由四條邊圍成。點按鈕，把邊一條一條畫上去。</p>
+<div class="card">
+<svg class="fig" id="g1" viewBox="0 0 360 290" role="img" aria-label="曲線 y=f(x)、x 軸、x=a、x=b 圍成的區域 R"></svg>
+<div class="seg" id="edges"><button data-e="0"><span data-k="y=f(x)"></span></button><button data-e="1"><span data-k="y=0"></span></button><button data-e="2"><span data-k="x=a"></span></button><button data-e="3"><span data-k="x=b"></span></button></div>
+<p class="say" id="e-say" aria-live="polite">四條邊都畫好，才圍得出這塊區域。</p>
+<div id="neg" hidden>
+<p><b>課本為什麼先規定 <span data-k="f(x)"></span> 非負？</b>把曲線往下拉看看。</p>
+<div class="sl"><output id="d-o"></output><input id="d" type="range" min="0" max="5" step="0.1" value="0" aria-label="曲線下移量"></div>
+<p class="say" id="d-say"></p>
+</div>
+</div>
+
+<div class="step">PART 2</div>
+<h2>分割：把 <span data-k="[a,b]"></span> 等分成 <span data-k="n"></span> 段</h2>
+<p>這張圖取 <span data-k="a=1,\ b=7"></span>。改變 <span data-k="n"></span>，看分割點和每段寬度怎麼變。</p>
+<div class="card">
+<svg class="fig" id="g2" viewBox="0 0 360 255" role="img" aria-label="把區域 R 切成 n 個等寬長條"></svg>
+<div class="sl"><output id="n2-o"></output><button data-for="n2" data-d="-1" aria-label="n 減 1">−</button><input id="n2" type="range" min="1" max="12" value="3" aria-label="分割段數 n"><button data-for="n2" data-d="1" aria-label="n 加 1">+</button></div>
+<div class="fm" id="f2"></div>
+<div class="fm" id="f2b" style="padding-top:0"></div>
+<div class="key" id="n2-say"></div>
+</div>
+<div class="card">
+<b>動手：<span data-k="n=3"></span> 時，<span data-k="x_2"></span> 在哪裡？</b>
+<svg class="fig" id="g2q" viewBox="0 0 360 80" role="img" aria-label="數線，從 1 到 7 的整數點"></svg>
+<div class="seg" id="q2"></div>
+<div class="ans" id="q2a"></div>
+</div>
+
+<div class="step">PART 3</div>
+<h2>任取 <span data-k="t_i"></span>：用矩形代替長條</h2>
+<p>長條的上緣是彎的，不好算。所以在每一段 <span data-k="[x_{i-1},x_i]"></span> 裡<b>隨便挑一點</b> <span data-k="t_i"></span>，拿那一點的函數值當矩形的高。</p>
+<p><b>左右拖動<span class="ch">紫色圓點</span>：</b></p>
+<div class="card">
+<svg class="fig" id="g3" viewBox="0 0 360 265" aria-label="四個矩形，高度由各段中的 t 決定"></svg>
+<div class="small" style="text-align:center"><span class="cr">紅</span>＝多算的　<span class="cg">綠</span>＝少算的</div>
+<div class="fm" id="f3"></div>
+<div class="seg" id="t3"><button data-m="l">全取左端</button><button data-m="m">全取中點</button><button data-m="r">全取右端</button><button data-m="x">隨便取</button></div>
+<div class="key">矩形面積 ＝ <span class="ch">高 <span data-k="f(t_i)"></span></span> × <span class="cw">寬 <span data-k="\Delta x"></span></span>。<br>左端、中點、右端都可以，只要 <span data-k="t_i"></span> 在那一段裡面就合格。</div>
+</div>
+
+<div class="step">PART 4</div>
+<h2>加起來：<span data-k="\Sigma"></span> 就是「全部相加」</h2>
+<p>這裡用你在 PART 3 選的 <span data-k="t_i"></span>。按一下，看四塊矩形排成一條。</p>
+<div class="card">
+<svg class="fig" id="g4" viewBox="0 0 360 310" role="img" aria-label="四個矩形的面積依序接成一條總面積"></svg>
+<div class="btns"><button class="btn" id="p4">▶ 開始加</button></div>
+<div class="terms" id="terms" aria-live="polite"></div>
+<div id="sig" hidden>
+<div class="fm" id="f4"></div>
+<p><b>點每個零件，看它在圖上是什麼：</b></p>
+<div class="seg" id="parts"></div>
+<p class="say" id="p-say" aria-live="polite"></p>
+</div>
+</div>
+
+<div class="step">PART 5</div>
+<h2>越切越細，黎曼和往哪裡跑？</h2>
+<p>剛才的和 <span data-k="\sum f(t_i)\cdot\Delta x"></span> 就叫<b>黎曼和</b>。這個 <span data-k="R"></span> 的真正面積是 <b>30</b>（怎麼算出來的，之後會教）。先猜：<span data-k="n"></span> 變大時，<span data-k="t_i"></span> 換不同取法，答案還會差很多嗎？</p>
+<div class="card">
+<svg class="fig" id="g5" viewBox="0 0 360 240" role="img" aria-label="n 個矩形逼近區域 R"></svg>
+<div class="stats"><div>黎曼和<b id="s5"></b></div><div>真正面積<b>30</b></div><div>相差<b id="e5" class="cr"></b></div></div>
+<div class="sl"><output id="n5-o"></output><button data-for="n5" data-d="-1" aria-label="n 減 1">−</button><input id="n5" type="range" min="1" max="100" value="4" aria-label="矩形個數 n"><button data-for="n5" data-d="1" aria-label="n 加 1">+</button></div>
+<div class="seg" id="t5"><button data-m="l">左端</button><button data-m="m">中點</button><button data-m="r">右端</button><button data-m="x" class="on">隨便取</button></div>
+<div class="btns"><button class="btn" id="p5">▶ 從 1 切到 64</button></div>
+<p class="small" style="margin:14px 0 0">每試一次，下面留一個點（高低＝黎曼和）。</p>
+<svg class="fig" id="h5" viewBox="0 0 360 170" role="img" aria-label="各次黎曼和與真正面積 30 的比較"></svg>
+</div>
+<div class="tip"><b>下一頁預告：</b>「<span data-k="n"></span> 越大越接近」目前只是用眼睛看到的。課本下一頁會用上和、下和把面積夾住，再用夾擠定理說明。</div>
+
+<div class="step">收起來</div>
+<h2>黎曼和（Riemann sum）</h2>
+<div class="card goal">
+<div class="fm" id="f6"></div>
+<p>叫做 <span data-k="f(x)"></span> 在 <span data-k="[a,b]"></span> 上，對於分割點 <span data-k="x_0,x_1,\dots,x_n"></span> 的<b>黎曼和</b>。它可以當成區域 <span data-k="R"></span> 面積的<b>近似值</b>。</p>
+<ol style="margin-bottom:0"><li><b>切</b>：等分 <span data-k="n"></span> 段，<span class="cw"><span data-k="\Delta x=\frac{b-a}{n}"></span></span></li><li><b>挑</b>：每段任取一個 <span data-k="t_i"></span></li><li><b>乘</b>：<span class="ch">高</span> × <span class="cw">寬</span> ＝ <span data-k="f(t_i)\cdot\Delta x"></span></li><li><b>加</b>：從 <span data-k="i=1"></span> 加到 <span data-k="i=n"></span></li></ol>
+</div>
+
+<div class="step">自我檢查</div>
+<h2>五題小測</h2>
+<div class="card" id="quiz"></div>
+<div class="card">
+<b>用自己的話說：黎曼和在算什麼？為什麼它只是「近似值」？</b>
+<textarea id="own" rows="4" placeholder="兩三句就好" aria-label="用自己的話說明黎曼和"></textarea>
+<div class="btns"><button class="btn" id="copy">複製我的作答</button></div>
+<div class="msg" id="msg" aria-live="polite"></div>
+</div>
+<div class="foot">按「複製我的作答」後，貼到 LINE 傳回。</div>
+</div>
+<script src="vendor/katex/katex.min.js"></script>
+<script src="vendor/motion.js"></script>
+<script src="integral-page1.js"></script>
+</body>
+</html>
