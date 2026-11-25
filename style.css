@@ -95,6 +95,20 @@ a.next{display:block;text-align:center;text-decoration:none;position:relative;ov
 .quote span.on{color:var(--ink);background:linear-gradient(transparent 60%,#ffe08a 60%);font-weight:700}
 .proof{list-style:none;padding:0;margin:0}
 .proof li{padding:10px 0;border-bottom:1px dashed var(--line)}
+h3{font-size:19.5px;line-height:1.45;margin:30px 0 4px;color:var(--blue)}
+.ct{color:#0e7490;font-weight:700}
+.stats b.ct{color:#0e7490}
+.stats b.ch{color:var(--h)}
+.walk{font-size:17px;color:#75818d;padding-left:26px}
+.walk li{width:fit-content;padding-right:6px;transition:color .3s,background .3s}
+.walk li.on{color:var(--ink);background:linear-gradient(transparent 60%,#ffe08a 60%)}
+.cmp{width:100%;border-collapse:collapse;font-size:17px;line-height:1.6;margin:14px 0}
+.cmp th,.cmp td{padding:8px 6px;border-bottom:1px dashed var(--line);text-align:left;vertical-align:top}
+.cmp tr>th:first-child{color:var(--muted);font-weight:400;font-size:15.5px;white-space:nowrap}
+.no{border-left:5px solid var(--red);background:var(--red-bg);padding:9px 13px;margin:10px 0;font-size:17.5px}
+svg .tap{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+svg .tap:focus{outline:none}
+svg .tap:focus-visible{outline:2px solid #0f5f8c88}
 .cw{color:var(--w);font-weight:700}
 .ch{color:var(--h);font-weight:700}
 .cg{color:var(--good);font-weight:700}
@@ -112,6 +126,10 @@ textarea{width:100%;border:1.5px solid #a9bac7;border-radius:12px;padding:12px;f
 .katex{white-space:nowrap}
 #edges button{font-size:14px;letter-spacing:-.02em}
 .seg.col{flex-direction:column}
+#mh.hint::after{left:72%}
+.qr{display:flex;gap:14px;align-items:center;margin:12px 0;font-size:16px;line-height:1.65;color:var(--muted)}
+.qr img{flex:none;background:#fff}
+.qr b{color:var(--ink);font-size:18px}
 .sl.hint::after{left:56%;bottom:-16px}
 @media (max-width:360px){#parts button{font-size:13px}#b3 button{font-size:13px}#edges{flex-wrap:wrap}#edges button{flex:1 0 40%}.fm{font-size:16px}#t3 button{font-size:14px}}
 @media (prefers-reduced-motion:reduce){.btn::after,.hint button,.hint::after,.rip{animation:none!important}}

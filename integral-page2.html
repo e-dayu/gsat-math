@@ -6,12 +6,12 @@
 <meta name="color-scheme" content="light">
 <meta name="theme-color" content="#fbfaf7">
 <meta property="og:title" content="積分page2教學">
-<meta property="og:description" content="黎曼和、上和與下和，再用夾擠定理求出真正的面積。">
+<meta property="og:description" content="黎曼和、tᵢ 與 f(tᵢ)、上和與下和，再用夾擠定理求出真正的面積。">
 <script src="line.js"></script>
 <title>積分page2教學</title>
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="style.css?v=2">
+<link rel="stylesheet" href="style.css?v=5">
 </head>
 <body>
 <div id="bar"></div>
@@ -20,6 +20,7 @@
 <div class="course-id">第三章 §3-1 積分的意義</div>
 <h1>積分page2教學</h1>
 <p class="sub">對照課本第 112 頁：黎曼和、逼近、求極限。</p>
+<div class="qr"><img src="qr-page2.svg" width="136" height="136" alt="本頁網址的 QR code"><div><b>用 iPad 看更清楚</b><br>打開 iPad 相機，掃左邊的 QR code，就能換成大螢幕閱讀。</div></div>
 
 <div class="card goal">
 <b>page1 已經會「切、挑、乘、加」，得到近似值。</b>
@@ -33,11 +34,76 @@
 <div class="card goal">
 <div class="fm" id="f1"></div>
 <p>叫做 <span data-k="f(x)"></span> 在 <span data-k="[a,b]"></span> 上，對於分割點 <span data-k="x_0,x_1,\dots,x_n"></span> 的<b>黎曼和</b>。</p>
-<ol style="margin-bottom:0"><li><b>切</b>：等分 <span data-k="n"></span> 段，<span class="cw"><span data-k="\Delta x=\frac{b-a}{n}"></span></span></li><li><b>挑</b>：每段任取一個 <span data-k="t_i"></span></li><li><b>乘</b>：<span class="ch">高</span> × <span class="cw">寬</span> ＝ <span data-k="f(t_i)\cdot\Delta x"></span></li><li><b>加</b>：從 <span data-k="i=1"></span> 加到 <span data-k="i=n"></span></li></ol>
+<ol style="margin-bottom:0"><li><b>切</b>：等分 <span data-k="n"></span> 段，<span class="cw"><span data-k="\Delta x=\frac{b-a}{n}"></span></span></li><li><b>挑</b>：每段任取一個 <span data-k="t_i"></span>（PART 2、3 細說）</li><li><b>乘</b>：<span class="ch">高</span> × <span class="cw">寬</span> ＝ <span data-k="f(t_i)\cdot\Delta x"></span></li><li><b>加</b>：從 <span data-k="i=1"></span> 加到 <span data-k="i=n"></span></li></ol>
 </div>
 <p class="small">黎曼（Bernhard Riemann，1826～1866），德國數學家。</p>
 
 <div class="step">PART 2</div>
+<h2><span data-k="t_i"></span> 是什麼？</h2>
+<p><b><span data-k="t_i"></span> 就是「第 <span data-k="i"></span> 段派出的代表」。</b></p>
+<p>小小的 <span data-k="i"></span> 是<b>編號</b>，不是相乘：<span data-k="t_1"></span> 是第 1 段的代表，<span data-k="t_2"></span> 是第 2 段的代表，一直到 <span data-k="t_n"></span>。寫 <span data-k="t_i"></span>，就是指「第 <span data-k="i"></span> 段的那一個」。</p>
+<h3>派誰當代表？</h3>
+<p>想像全班坐成好幾排，每排派一位代表。可以派：</p>
+<ul>
+<li><b class="cr">最高的那位</b>：選函數值<b>最大</b>的位置</li>
+<li><b class="cg">最矮的那位</b>：選函數值<b>最小</b>的位置</li>
+<li><b>任意一位</b>：隨便選一個位置</li>
+</ul>
+<p>三種都合格，<b>只要坐在那一排</b>，也就是 <span data-k="t_i"></span> 在 <span data-k="x_{i-1}"></span> 到 <span data-k="x_i"></span> 之間（兩端也可以）。</p>
+
+<div class="step">PART 3</div>
+<h2><span data-k="t_i"></span> 和 <span data-k="f(t_i)"></span> 差在哪？</h2>
+<p><b><span class="ct"><span data-k="t_i"></span> 是「誰」</span>，<span class="ch"><span data-k="f(t_i)"></span> 是「他多高」</span>。</b></p>
+<p><span data-k="f"></span> 就像查身高的機器：放進座號，出來身高。<b>點一位同學試試：</b></p>
+<div class="card">
+<svg class="fig" id="gh" viewBox="0 0 360 306" aria-label="七位高矮不同的同學，點一位，座號進入機器 f，出來身高"></svg>
+<ol class="walk" id="walk"><li><b>找位置</b>：站到 <span data-k="t_i"></span></li><li><b>往上走</b>：到頂就停</li><li><b>讀高度</b>：就是 <span data-k="f(t_i)"></span></li></ol>
+<p class="say" id="sh" aria-live="polite"></p>
+<div class="seg" id="mh" data-hint><button data-m="0" class="on">看同學</button><button data-m="1">變成函數圖</button></div>
+</div>
+<table class="cmp">
+<tr><th></th><th class="ct"><span data-k="t_i"></span></th><th class="ch"><span data-k="f(t_i)"></span></th></tr>
+<tr><th>比喻</th><td>代表的<b class="ct">座號</b></td><td>代表的<b class="ch">身高</b></td></tr>
+<tr><th>意思</th><td><span data-k="x"></span> 軸上的<b>位置</b></td><td>那個位置的<b>函數值</b></td></tr>
+<tr><th>在圖上</th><td><b>橫的</b>，看 <span data-k="x"></span> 軸</td><td><b>直的</b>，從 <span data-k="x"></span> 軸到曲線</td></tr>
+<tr><th>用途</th><td>決定在哪裡量</td><td>當<b>矩形的高</b></td></tr>
+</table>
+
+<h3>先用簡單的算一次</h3>
+<p><span data-k="f(x)=x^2"></span>，這一段是 2 到 4，寬是 <span data-k="4-2=2"></span>。你要派誰？</p>
+<div class="card">
+<svg class="fig" id="ga" viewBox="0 0 360 256" role="img" aria-label="拋物線在 2 到 4 這一段，選代表後畫出矩形"></svg>
+<div class="seg" id="wa" data-hint><button data-w="lo">最矮的</button><button data-w="any">任意</button><button data-w="hi">最高的</button></div>
+<div class="stats"><div><span data-k="t_i"></span>（位置）<b id="ta" class="ct">?</b></div><div><span data-k="f(t_i)"></span>（高度）<b id="fa" class="ch">?</b></div><div>矩形面積<b id="ra">?</b></div></div>
+<p class="say" id="sa" aria-live="polite">選一位代表，看位置和高度各是多少。</p>
+</div>
+
+<h3>換回我們的圖</h3>
+<p>把 <span data-k="[1,7]"></span> 等分成 3 段，每段寬 2。每一段都派一位代表：</p>
+<div class="card">
+<svg class="fig" id="gb" viewBox="0 0 360 256" role="img" aria-label="三段曲線，各選一位代表畫出矩形"></svg>
+<div class="seg" id="ib"><button data-i="0">第1段</button><button data-i="1">第2段</button><button data-i="2" class="on">第3段</button></div>
+<div class="seg" id="wb" data-hint><button data-w="lo">最矮的</button><button data-w="any">任意</button><button data-w="hi">最高的</button></div>
+<div class="stats"><div id="tbl"></div><div id="fbl"></div><div>黎曼和<b id="rb"></b></div></div>
+<p class="say" id="sb" aria-live="polite">先看第 3 段（5 到 7）：最矮的在哪裡？</p>
+</div>
+
+<h3>最常卡住的三個地方</h3>
+<div class="no"><b>✗ 拿 <span data-k="t_i"></span> 當高</b><br><span data-k="t_i"></span> 是位置，<span data-k="f(t_i)"></span> 才是高。</div>
+<div class="no"><b>✗ 把 <span data-k="f(t_i)"></span> 看成 <span data-k="f"></span> 乘以 <span data-k="t_i"></span></b><br>是把 <span data-k="t_i"></span> <b>代進</b> <span data-k="f"></span>。</div>
+<div class="no"><b>✗「派最高的」，就把 <span data-k="t_i"></span> 寫成最大值</b><br>最大值是<b>高度</b> <span data-k="f(t_i)"></span>；<span data-k="t_i"></span> 是<b>最大值發生的位置</b>。上面第 3 段派最高的：<span data-k="t_3=7"></span>，最大值是 6.5。</div>
+
+<h3>換你試試</h3>
+<div class="card"><p style="margin-top:0"><span data-k="f(x)=x^2"></span>，這一段是 1 到 3，派<b>最高的</b>當代表。</p><div id="try"></div></div>
+
+<h3>這三種派法，後面都會用到</h3>
+<ul>
+<li>每段都派<b class="cg">最矮的</b>，加起來叫<b class="cg">下和</b></li>
+<li>每段都派<b class="cr">最高的</b>，加起來叫<b class="cr">上和</b></li>
+<li>每段<b>任意</b>派，就是一般的<b>黎曼和</b></li>
+</ul>
+
+<div class="step">PART 4</div>
 <h2>越切越細，黎曼和往哪裡跑？</h2>
 <p>沿用 page1 的圖，<span data-k="R"></span> 的真正面積是 <b>30</b>。先猜：<span data-k="n"></span> 變大時，<span data-k="t_i"></span> 換不同取法，答案還會差很多嗎？</p>
 <div class="card">
@@ -51,7 +117,7 @@
 </div>
 <p>不管怎麼取，都往 30 靠。可是「看起來」不算證明。課本的辦法：<b>從下面和上面兩邊夾住它。</b></p>
 
-<div class="step">PART 3</div>
+<div class="step">PART 5</div>
 <h2>逼近：每一段的最大值 <span data-k="M_i"></span> 和最小值 <span data-k="m_i"></span></h2>
 <p>在每一段 <span data-k="[x_{i-1},x_i]"></span> 裡，<span data-k="f(x)"></span> 都有最高點和最低點。點一段，看小球走一遍把它們找出來。</p>
 <div class="card">
@@ -60,7 +126,7 @@
 <p class="say" id="s3" aria-live="polite">五段都點點看。小心：最高點一定在端點嗎？</p>
 </div>
 
-<div class="step">PART 4</div>
+<div class="step">PART 6</div>
 <h2>下和 <span data-k="L_n"></span> 與上和 <span data-k="U_n"></span></h2>
 <p>每段都用<b class="cg">最小值</b>當高，加起來叫<b class="cg">下和</b>；都用<b class="cr">最大值</b>當高，加起來叫<b class="cr">上和</b>。</p>
 <div class="card">
@@ -72,7 +138,7 @@
 <div class="fm" id="f4" style="font-size:16px"></div>
 </div>
 
-<div class="step">PART 5</div>
+<div class="step">PART 7</div>
 <h2>求極限：兩邊夾過來</h2>
 <p>把三個數放到同一條數線上。拉大 <span data-k="n"></span>，看<span class="cg">綠色</span>和<span class="cr">紅色</span>兩道牆往中間夾。再丟幾個隨便取 <span data-k="t_i"></span> 的黎曼和進去，看會不會跑出牆外。</p>
 <div class="card">
@@ -83,7 +149,7 @@
 <p class="say" id="s5" aria-live="polite"></p>
 </div>
 
-<div class="step">PART 6</div>
+<div class="step">PART 8</div>
 <h2>把它寫成數學</h2>
 <p>剛才看到的，課本用四步寫出來。一步一步按：</p>
 <div class="card">
@@ -107,6 +173,6 @@
 <script src="vendor/katex/katex.min.js"></script>
 <script src="vendor/motion.js"></script>
 <script src="common.js?v=2"></script>
-<script src="integral-page2.js?v=2"></script>
+<script src="integral-page2.js?v=5"></script>
 </body>
 </html>
