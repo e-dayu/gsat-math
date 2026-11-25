@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light">
 <meta name="theme-color" content="#fbfaf7">
 <meta property="og:title" content="積分page4_5教學">
-<meta property="og:description" content="微積分基本定理：反導函數、不定積分、水桶與水表，還有六個運算性質。">
+<meta property="og:description" content="微積分基本定理：反導函數、不定積分、存錢與存摺，還有六個運算性質。">
 <script src="line.js"></script>
 <title>積分page4_5教學</title>
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
@@ -92,42 +92,71 @@
 <div class="card" id="try4"></div>
 
 <div class="step">PART 5</div>
-<h2>水桶：積分為什麼是微分的倒過來？</h2>
-<p>水龍頭忽大忽小地流。<span class="cb"><span data-k="f(t)"></span> 是<b>水流多大</b></span>，<span class="ct"><span data-k="g(x)"></span> 是<b>桶子裡累積了多少水</b></span>，從 <span data-k="a=1"></span> 開始接。</p>
-<p><b>拖圓點，或按開水龍頭：</b></p>
+<h2>積分為什麼是微分的倒過來？</h2>
+<h3>① 先看存錢：加起來，再減回去</h3>
+<p>小明每天存的錢是 1、3、5、7。<b>先按「加起來」，再按「減回去」：</b></p>
 <div class="card">
-<svg class="fig" id="g5" viewBox="0 0 360 396" aria-label="上圖是水流 f(t)，下圖是累積水量 g(x)，右邊是水桶"></svg>
-<div class="stats"><div>水流 <span data-k="f(x)"></span><b id="f5" class="cb"></b></div><div>水量 <span data-k="g(x)"></span><b id="v5" class="ct"></b></div><div>水量的斜率 <span data-k="g'(x)"></span><b id="d5" class="ch"></b></div></div>
-<div class="btns" data-hint><button class="btn" id="p5">▶ 開水龍頭</button></div>
+<svg class="fig" id="g5a" viewBox="0 0 360 300" role="img" aria-label="每天存的錢疊成存摺總額，再拆回每天存的錢"></svg>
+<div class="btns" data-hint><button class="btn" id="add5">▶ 加起來</button><button class="btn ghost" id="sub5">◀ 減回去</button></div>
+<p class="say" id="s5a" aria-live="polite">上面是每天存的錢，下面是存摺的總共。</p>
+</div>
+<table class="cmp">
+<tr><th></th><th>第1天</th><th>第2天</th><th>第3天</th><th>第4天</th></tr>
+<tr><th class="ch">每天存</th><td class="ch">1</td><td class="ch">3</td><td class="ch">5</td><td class="ch">7</td></tr>
+<tr><th class="cb">總共</th><td class="cb">1</td><td class="cb">4</td><td class="cb">9</td><td class="cb">16</td></tr>
+</table>
+<div class="key"><b>加起來，再相減，就回到原本的數。</b><br>積分就像「一直加」，微分就像「看差多少」，所以它們互相倒過來。</div>
+
+<h3>② 換成圖：每天存的錢，變成一條面積</h3>
+<p>畫出 <span data-k="y=2x"></span>，從 0 開始，一天切一條。四條的面積剛好是 <b>1、3、5、7</b>，跟存的錢一樣。</p>
+<p>從 0 累積到 <span data-k="x"></span>，是一個<b>三角形</b>：底 <span data-k="x"></span>、高 <span data-k="2x"></span>，面積是</p>
+<div class="fm"><span data-k="\displaystyle x\times2x\div2=x^2"></span></div>
+<p><b>拖圓點，或按按鈕</b>，比較上、下兩條<b class="ch">紫色線段</b>：</p>
+<div class="card">
+<svg class="fig" id="g5" viewBox="0 0 360 450" aria-label="上圖是 y=2x 和累積的三角形，下圖是累積面積 x 平方和它的切線"></svg>
+<div class="stats"><div>累積到<b id="x5"></b></div><div>上圖高度<b id="f5" class="ch"></b></div><div>累積面積<b id="v5" class="ct"></b></div><div>切線斜率<b id="d5" class="ch"></b></div></div>
+<div class="btns" data-hint><button class="btn" id="p5">▶ 從 0 走到 4</button></div>
 <p class="say" id="s5" aria-live="polite"></p>
 </div>
-<p>水流大，水位就漲得快。<b>水量上升的速度，就是水流的大小。</b></p>
-<div class="key"><b>微積分基本定理 (1)</b>：令 <span data-k="\displaystyle g(x)=\int_a^xf(t)\,dt"></span>，則 <b><span data-k="g'(x)=f(x)"></span></b>。<br>先積分、再微分，就<b>變回原來的 <span data-k="f"></span></b>。</div>
-<p class="tip">為什麼裡面寫 <span data-k="t"></span>？因為 <span data-k="x"></span> 已經拿去當<b>終點</b>了，走在路上的變數要換一個字母，才不會撞名。</p>
-<h3>多接一下下，會多多少水？</h3>
-<p>從 <span data-k="x=4"></span> 再多接一小段 <span data-k="h"></span>。多出來的是一條<b>很像長方形</b>的細條：</p>
+<p>下面那條累積的曲線是 <span data-k="x^2"></span>。把它微分，得到 <span data-k="2x"></span>，<b>就是上面一開始那條線！</b></p>
+<div class="card goal"><div class="fm"><span data-k="2x\ \xrightarrow{\text{積分}}\ x^2\ \xrightarrow{\text{微分}}\ 2x"></span></div></div>
+
+<h3>③ 為什麼一定會變回來？看「剛加上去的那一條」</h3>
+<p>累積到 <span data-k="x=3"></span>，面積是 9。再往右多走一點點 <span data-k="h"></span>，只多了<b class="ch">一條細細的面積</b>。<b>把 <span data-k="h"></span> 變小看看：</b></p>
 <div class="card">
-<svg class="fig" id="g6" role="img" aria-label="x 等於 4 到 4+h 的細條，h 越小越像長方形"></svg>
-<div class="stats"><div>多的水量<b id="a6" class="ct"></b></div><div>÷ <span data-k="h"></span><b id="q6" class="ch"></b></div><div><span data-k="f(4)"></span><b id="f6" class="cb"></b></div></div>
-<div class="seg" id="b6" data-hint><button data-h="1.5" class="on">h=1.5</button><button data-h="0.5">h=0.5</button><button data-h="0.1">h=0.1</button><button data-h="0.01">h=0.01</button></div>
+<svg class="fig" id="g6" role="img" aria-label="x 等於 3 到 3+h 的細條，h 越小越像長方形"></svg>
+<div class="stats"><div>多出的面積<b id="a6" class="ct"></b></div><div>÷ <span data-k="h"></span><b id="q6" class="ch"></b></div><div>高 <span data-k="2\times3"></span><b id="f6" class="ch"></b></div></div>
+<div class="seg" id="b6" data-hint><button data-h="1" class="on">h=1</button><button data-h="0.1">h=0.1</button><button data-h="0.01">h=0.01</button></div>
 <p class="say" id="s6" aria-live="polite"></p>
 </div>
+<p>細條很像長方形，所以</p>
+<div class="fm"><span data-k="\text{多出的面積}\approx\textcolor{#6d28d9}{\text{高}}\times h"></span></div>
+<p>除以 <span data-k="h"></span>，就剩下<b class="ch">高</b>。</p>
+<ul>
+<li>「多出的面積 ÷ <span data-k="h"></span>，<span data-k="h"></span> 越來越小」就是<b>微分</b></li>
+<li>「高」就是<b>原本的函數</b></li>
+</ul>
+<div class="key"><b>積分</b>是把一條一條的面積<b>加上去</b>。<br><b>微分</b>是問「剛加上去的那條<b>有多高</b>」。<br>所以積分完再微分，就變回原本的函數。</div>
+
+<h3>④ 寫成數學</h3>
+<div class="key"><b>微積分基本定理 (1)</b>：令 <span data-k="\displaystyle g(x)=\int_a^xf(t)\,dt"></span>，則 <b><span data-k="g'(x)=f(x)"></span></b>。<br><span data-k="g(x)"></span> 是「從 <span data-k="a"></span> 累積到 <span data-k="x"></span>」，微分就變回 <span data-k="f(x)"></span>。</div>
+<p class="tip">為什麼裡面寫 <span data-k="t"></span>？因為 <span data-k="x"></span> 已經拿去當<b>終點</b>了，走在路上的變數要換一個字母，才不會撞名。</p>
 <h3>換你試試</h3>
 <div class="card" id="try5"></div>
 
 <div class="step">PART 6</div>
-<h2>水表：算定積分的捷徑</h2>
-<p>這個月用多少水？<b>不用整天盯著看</b>，只要兩個數字：</p>
-<p style="text-align:center;font-size:21px"><b>月底讀數 − 月初讀數</b></p>
-<p>反導函數 <span data-k="F(x)"></span> 就是水表。下面 <span data-k="f(x)=2x"></span>，水表是 <span data-k="F(x)=x^2+c"></span>。<b>拖兩個圓點換月初、月底：</b></p>
+<h2>存摺：算定積分的捷徑</h2>
+<p>這段時間存了多少錢？<b>不用一筆一筆加</b>，翻開存摺，只要兩個數字：</p>
+<p style="text-align:center;font-size:21px"><b>期末餘額 − 期初餘額</b></p>
+<p>反導函數 <span data-k="F(x)"></span> 就是存摺。下面 <span data-k="f(x)=2x"></span> 是存錢的快慢，存摺是 <span data-k="F(x)=x^2+c"></span>，<span data-k="c"></span> 是<b>原本就有的錢</b>。<b>拖兩個圓點換期初、期末：</b></p>
 <div class="card">
-<svg class="fig" id="g7" aria-label="直線 y=2x 下的面積，等於兩個水表讀數相減"></svg>
-<div class="sl"><output id="c7-o"></output><button data-for="c7" data-d="-1" aria-label="c 變小">−</button><input id="c7" type="range" min="0" max="20" value="0" aria-label="水表原本的數字 c"><button data-for="c7" data-d="1" aria-label="c 變大">+</button></div>
+<svg class="fig" id="g7" aria-label="直線 y=2x 下的面積，等於存摺的期末餘額減期初餘額"></svg>
+<div class="sl"><output id="c7-o"></output><button data-for="c7" data-d="-1" aria-label="c 變小">−</button><input id="c7" type="range" min="0" max="20" value="0" aria-label="原本就有的錢 c"><button data-for="c7" data-d="1" aria-label="c 變大">+</button></div>
 <div class="fm" id="f7"></div>
 <p class="say" id="s7" aria-live="polite"></p>
 </div>
 <div class="key"><b>微積分基本定理 (2)</b>：若 <span data-k="F'(x)=f(x)"></span>，則<br><span data-k="\displaystyle\int_a^bf(x)\,dx=F(b)-F(a)"></span></div>
-<p>水表原本是幾度（<span data-k="c"></span>）不影響用水量，<b>相減就消掉了。所以算定積分不用寫 <span data-k="+c"></span>。</b></p>
+<p>原本就有多少錢（<span data-k="c"></span>），不影響這段時間存了多少，<b>相減就消掉了。所以算定積分不用寫 <span data-k="+c"></span>。</b></p>
 
 <div class="step">PART 7</div>
 <h2>求定積分，兩個步驟</h2>
@@ -164,7 +193,7 @@
 <div class="card" id="quiz"></div>
 <div class="card">
 <b>用自己的話說：為什麼算定積分，只要把反導函數的兩個值相減？</b>
-<textarea id="own" rows="4" placeholder="可以用水表來說明" aria-label="用自己的話說明"></textarea>
+<textarea id="own" rows="4" placeholder="可以用存摺來說明" aria-label="用自己的話說明"></textarea>
 <div class="btns"><button class="btn" id="copy">複製我的作答</button></div>
 <div class="msg" id="msg" aria-live="polite"></div>
 </div>
@@ -176,6 +205,6 @@
 <script src="vendor/motion.js"></script>
 <script src="common.js?v=2"></script>
 <script src="plot.js?v=1"></script>
-<script src="integral-page4_5.js?v=1"></script>
+<script src="integral-page4_5.js?v=2"></script>
 </body>
 </html>

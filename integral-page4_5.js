@@ -1,6 +1,6 @@
 (() => {
 'use strict';
-const VB = C.h, txt = (p, x, y, s, st = '') => { const t = el('text', {x, y, 'text-anchor': 'middle', style: st}, p); t.textContent = s; return t; };
+const VB = C.h, P5 = '#d9ccf5', txt = (p, x, y, s, st = '') => { const t = el('text', {x, y, 'text-anchor': 'middle', style: st}, p); t.textContent = s; return t; };
 const chipAt = (s, w, h, fill, size = 20) => { // 會移動的卡片
   const g = el('g', {opacity: 0}, s); el('rect', {x: -w / 2, y: -h / 2, width: w, height: h, rx: 9, fill}, g);
   let t = null;
@@ -115,82 +115,115 @@ mini('#try4', [
   {q: `${ks('\\displaystyle\\int 6x\\,dx=')}？`, o: [ks('6x^2+c'), ks('3x^2+c'), ks('6+c')], a: 1, w: `${ks('\\frac{6x^2}{2}=3x^2')}，再加 ${ks('c')}。`, h: ['次方加 1 之後，還要<b>除以新次方</b> 2。', '', '6 是微分的結果。這裡要倒著做。']},
   {col: 1, q: `${ks('\\displaystyle\\int(3x^2+1)\\,dx=')}？`, o: [ks('x^3+x'), ks('x^3+x+c'), ks('6x+c')], a: 1, w: `${ks('3x^2\\to x^3')}，${ks('1\\to x')}，最後加 ${ks('c')}。`, h: ['算對了，但是漏了 +c。', '', `${ks('6x')} 是微分的結果。這裡要倒著做。`]}]);
 
-// ── PART 5：水桶
+// ── PART 5 ①：存錢，加起來再減回去
 (() => {
-  const s = $('#g5');
-  const T = plot(s, {x: [0, 7.6], y: [0, 7.4], w: 252, h: 150, pad: [20, 16, 12, 26]}), D = plot(s, {x: [0, 7.6], y: [0, 33], w: 252, h: 178, top: 214, pad: [22, 16, 24, 26]});
-  const ar = el('path', {fill: C.bl}, s); T.axes({xn: 't', yn: 'y'}); T.curve(A, B, f); mt(s, T.X(4.3), T.Y(6.5), 'f(t)', {style: `fill:${C.b}`});
-  const st = el('path', {stroke: C.b, 'stroke-width': 4, 'stroke-linecap': 'round'}, s);
-  D.axes({xn: 'x', yn: 'y'}); mt(s, D.X(2.6), D.Y(17), 'g(x)', {style: `fill:${CT}`});
-  el('path', {d: D.path(A, B, GF), fill: 'none', stroke: '#c9d8de', 'stroke-width': 2, 'stroke-dasharray': '3 4'}, s);
-  const gc = el('path', {fill: 'none', stroke: CT, 'stroke-width': 3.5, 'stroke-linecap': 'round'}, s), tg = el('path', {stroke: C.h, 'stroke-width': 3.5, 'stroke-linecap': 'round'}, s), vl = el('path', {stroke: C.mu, 'stroke-dasharray': '3 3'}, s), dot = el('circle', {r: 6, fill: CT, stroke: '#fff', 'stroke-width': 2}, s);
-  // 水龍頭與水桶
-  const bx = 262, bw = 84, bt = 92, bb = 250;
-  el('path', {d: `M${bx + 4} 44h30v-14h22v14q0 0 0 0v12h-18v-2h-34z`, fill: '#8a97a4'}, s); el('rect', {x: bx + 38, y: 20, width: 14, height: 12, rx: 3, fill: C.r}, s);
-  const jet = el('rect', {y: 56, fill: '#5bb4de'}, s), water = el('rect', {x: bx + 3, width: bw - 6, fill: '#8fd0ec'}, s), wave = el('path', {fill: '#8fd0ec'}, s);
-  el('path', {d: `M${bx} ${bt}V${bb}H${bx + bw}V${bt}`, fill: 'none', stroke: C.ink, 'stroke-width': 3, 'stroke-linejoin': 'round'}, s);
-  const wt = txt(s, bx + bw / 2, bb + 24, '', `font-size:17px;font-weight:700;fill:${CT}`);
-  let x = 1, auto, ph = 0;
-  const draw = () => {
-    const G = GF(x), w = f(x) * 2.6, top = bb - 2 - G / 30 * (bb - bt - 12);
-    ar.setAttribute('d', x > A ? T.fill(A, x, f) : ''); st.setAttribute('d', `M${T.X(x)} ${T.Y(0)}V${T.Y(f(x))}`);
-    gc.setAttribute('d', D.path(A, Math.max(A + .001, x), GF)); set(dot, {cx: D.X(x), cy: D.Y(G)});
-    const d = .9, p = [x - d, x + d].map(v => [D.X(v), D.Y(G + f(x) * (v - x))]); tg.setAttribute('d', poly(p)); vl.setAttribute('d', `M${D.X(x)} ${D.Y(0)}V${D.Y(G)}`);
-    set(jet, {x: bx + 47 - w / 2, width: w, height: Math.max(0, top - 56), opacity: auto || x > A ? 1 : 0}); set(water, {y: top, height: Math.max(0, bb - 1 - top)});
-    wave.setAttribute('d', G > .3 ? `M${bx + 3} ${top + 1}q${(bw - 6) / 4} ${-5 * Math.sin(ph)} ${(bw - 6) / 2} 0t${(bw - 6) / 2} 0z` : ''); wt.textContent = `水量 ${fx(G, 1)}`;
-    $('#f5').textContent = fx(f(x)); $('#v5').textContent = fx(G); $('#d5').textContent = fx(f(x));
+  const s = $('#g5a'), D = [1, 3, 5, 7], U = 8, W = 46, T0 = 90, B0 = 274, cx = i => 62 + i * 80, SUM = [1, 4, 9, 16];
+  const tt = (x, y, t, c, z = 15, a = 'middle') => { const e = el('text', {x, y, 'text-anchor': a, style: `font-size:${z}px;font-weight:700;fill:${c}`}, s); e.textContent = t; return e; };
+  tt(6, 20, '每天存', C.h, 15, 'start'); tt(6, 142, '存摺總共', C.b, 15, 'start');
+  el('path', {d: `M14 ${T0}H346M14 ${B0}H346`, stroke: C.ink, 'stroke-width': 1.5}, s);
+  D.forEach((d, i) => { tt(cx(i), T0 + 19, `第${i + 1}天`, '#566473', 14); tt(cx(i), B0 + 19, `第${i + 1}天`, '#566473', 14); el('rect', {x: cx(i) - W / 2, y: T0 - d * U, width: W, height: d * U, fill: 'none', stroke: '#b9a3e3', 'stroke-dasharray': '4 3'}, s); });
+  const prev = D.map(() => el('rect', {width: W, fill: C.bl, stroke: C.b, 'stroke-width': 1.2}, s)), tile = D.map(() => el('rect', {width: W, fill: P5, stroke: C.h, 'stroke-width': 1.5}, s)), tot = D.map((_, i) => tt(cx(i), 0, '', C.b, 19)), dl = D.map((_, i) => tt(cx(i), 0, '', C.h, 17));
+  let run = 0;
+  const at = (r, i, base, n, o = 1) => set(r, {x: cx(i) - W / 2, y: base - n * U, height: n * U, opacity: o});
+  const top = i => { at(tile[i], i, T0, D[i]); dl[i].textContent = D[i]; set(dl[i], {y: T0 - D[i] * U - 6, opacity: 1}); };
+  const lab = (i, n) => { tot[i].textContent = n; tot[i].setAttribute('y', B0 - n * U - 7); };
+  const start = () => D.forEach((_, i) => { top(i); at(prev[i], i, B0, 0, 0); tot[i].textContent = ''; });
+  const full = () => D.forEach((d, i) => { const p = SUM[i] - d; at(prev[i], i, B0, p, p ? 1 : 0); set(tile[i], {x: cx(i) - W / 2, y: B0 - SUM[i] * U, height: d * U, opacity: 1}); lab(i, SUM[i]); dl[i].textContent = ''; });
+  $('#add5').onclick = async () => {
+    const my = ++run, ok = () => my === run, go = (cb, o) => play(t => { if (ok()) cb(t); }, o); start();
+    for (let i = 0; i < 4; i++) {
+      const p = SUM[i] - D[i];
+      if (i) { $('#s5a').innerHTML = `把昨天的 <b class="cb">${p}</b> 搬過來…`; await go(t => set(prev[i], {x: lerp(cx(i - 1), cx(i), t) - W / 2, y: B0 - p * U, height: p * U, opacity: Math.min(1, t * 2)}), {ease: 'easeInOut', duration: .7}); if (!ok()) return; }
+      const y0 = T0 - D[i] * U, y1 = B0 - SUM[i] * U;
+      await go(t => { tile[i].setAttribute('y', lerp(y0, y1, t)); set(dl[i], {y: lerp(y0, y1, t) - 6, opacity: 1 - t}); }, {duration: .8, bounce: .25}); if (!ok()) return;
+      lab(i, SUM[i]); $('#s5a').innerHTML = `疊上今天的 <b class="ch">${D[i]}</b>：${i ? `${p} ＋ ${D[i]} ＝ ` : '總共 '}<b class="cb">${SUM[i]}</b>`; await wait(.9); if (!ok()) return;
+    }
+    full(); $('#s5a').innerHTML = '<b>一直加，就是累積。</b>總共是 1、4、9、16。再按「減回去」。';
   };
-  const say = () => { $('#s5').innerHTML = x < 1.05 ? '水桶還是空的。' : `<span class="cb">水流 ${fx(f(x))}</span>，下面那條<span class="ch">切線的斜率也是 ${fx(f(x))}</span>。${x < 3 ? '水流正在變大，水位越漲越快。' : x < 5.5 ? '水流正在變小，水位還在漲，但是漲得比較慢。' : '水流又變大，水位又漲得更快了。'}`; };
-  const H = handle(T, {v: 1, min: 1, max: 7, y: 178, color: CT, label: '終點 x', on: v => { x = v; ph += .5; draw(); say(); }, grab: () => { if (auto) auto.stop(); auto = null; }, demo: .9});
-  H.draw();
-  $('#p5').onclick = () => { H.stop(); if (auto) auto.stop(); if (reduce) { H.put(7); return; } H.put(1); auto = Motion.animate(1, 7, {duration: 7, ease: 'linear', onUpdate: v => H.put(v), onComplete: () => { auto = null; }}); };
-  draw(); say();
+  $('#sub5').onclick = async () => {
+    const my = ++run, ok = () => my === run, go = (cb, o) => play(t => { if (ok()) cb(t); }, o); full();
+    for (let i = 3; i >= 0; i--) {
+      const p = SUM[i] - D[i], y0 = B0 - SUM[i] * U, y1 = T0 - D[i] * U;
+      $('#s5a').innerHTML = i ? `第 ${i + 1} 天 − 第 ${i} 天：<b class="cb">${SUM[i]} − ${p}</b> ＝ ？` : '第 1 天，前一天是 0：<b class="cb">1 − 0</b> ＝ ？'; await wait(.8); if (!ok()) return;
+      await go(t => prev[i].setAttribute('opacity', p ? 1 - t * .85 : 0), {ease: 'easeOut', duration: .6}); if (!ok()) return;
+      tot[i].textContent = ''; dl[i].textContent = D[i];
+      await go(t => { tile[i].setAttribute('y', lerp(y0, y1, t)); set(dl[i], {y: lerp(y0, y1, t) - 6, opacity: t}); }, {duration: .9, bounce: .2}); if (!ok()) return;
+      top(i); $('#s5a').innerHTML = `${SUM[i]} − ${p} ＝ <b class="ch">${D[i]}</b>，就是第 ${i + 1} 天存的錢！`; await wait(.8); if (!ok()) return;
+    }
+    start(); $('#s5a').innerHTML = '<b class="ch">1、3、5、7，全部變回來了！</b><br>加起來，再相減，就回到原本的數。';
+  };
+  start();
 })();
 
-// ── PART 5 下半：多一小條
+// ── PART 5 ②：y=2x 與累積面積 x²，上下同一把尺
 (() => {
-  const s = $('#g6'), h0 = 236, I = $$('#b6 button'); set(s, {viewBox: `0 0 360 ${h0}`});
-  const g = el('g', {}, s); let h = 1.5, an, run = 0;
+  const s = $('#g5'), U = 11.6, fn = x => 2 * x, sq = x => x * x;
+  const T = plot(s, {x: [-.5, 4.6], y: [0, 9.3], w: 360, h: 9.3 * U + 24, pad: [10, 22, 14, 24]}), D = plot(s, {x: [-.5, 4.6], y: [-1.4, 17.4], w: 360, top: 196, h: 18.8 * U + 22, pad: [14, 22, 8, 24]});
+  const ar = el('path', {fill: C.bl}, s), cut = el('g', {}, s); T.axes({o: false}); T.curve(0, 4.2, fn); mt(s, T.X(3.1), T.Y(8.2), 'y=2x', {style: `fill:${C.b}`});
+  const hi = el('path', {stroke: C.h, 'stroke-width': 5, 'stroke-linecap': 'round'}, s), hl = mt(s, 0, 0, '', {'text-anchor': 'start', style: HALO + `fill:${C.h};font-weight:700`});
+  D.axes({o: false}); mt(s, D.X(2.15), D.Y(10), '累積 x²', {style: `fill:${CT}`}); el('path', {d: D.path(0, 4.1, sq), fill: 'none', stroke: '#c9d8de', 'stroke-width': 2, 'stroke-dasharray': '3 4'}, s);
+  const gc = el('path', {fill: 'none', stroke: CT, 'stroke-width': 3.5, 'stroke-linecap': 'round'}, s), tri = el('path', {fill: P5, 'fill-opacity': .6, stroke: 'none'}, s), run1 = el('path', {stroke: C.w, 'stroke-width': 3}, s), rise = el('path', {stroke: C.h, 'stroke-width': 5, 'stroke-linecap': 'round'}, s), tg = el('path', {stroke: C.ink, 'stroke-width': 2.5, 'stroke-linecap': 'round'}, s), dot = el('circle', {r: 6, fill: CT, stroke: '#fff', 'stroke-width': 2}, s), rl = mt(s, 0, 0, '', {'text-anchor': 'start', style: HALO + `fill:${C.h};font-weight:700`}), ol = mt(s, 0, 0, '1', {style: HALO + `fill:${C.w};font-weight:700`});
+  const STRIP = [1, 3, 5, 7], labs = STRIP.map((v, i) => { el('path', {d: `M${T.X(i + 1)} ${T.Y(0)}V${T.Y(fn(i + 1))}`, stroke: C.b, 'stroke-width': 1.2, opacity: 0}, cut); return mt(cut, T.X(i + .5) - (i ? 0 : 5), T.Y(i ? Math.max(.6, i * .9) : 2), String(v), {style: 'font-weight:700', opacity: 0}); });
+  let x = 1, an;
   const draw = () => {
-    g.textContent = ''; const P = plot(g, {x: [4 - .9 * h, 4 + 1.9 * h], y: [0, 7], h: h0, pad: [18, 16, 34, 16]});
-    el('path', {d: P.fill(4, 4 + h, f), fill: '#a5dbe6'}, g);
-    el('rect', {x: P.X(4), width: P.X(4 + h) - P.X(4), y: P.Y(f(4)), height: P.Y(0) - P.Y(f(4)), fill: 'none', stroke: C.w, 'stroke-width': 2, 'stroke-dasharray': '6 4'}, g);
-    el('path', {d: `M8 ${P.Y(0)}H352`, stroke: C.ink, 'stroke-width': 1.6}, g); P.curve(Math.max(A, 4 - .9 * h), 4 + 1.9 * h, f);
-    el('path', {d: `M${P.X(4)} ${P.Y(0)}V${P.Y(f(4))}`, stroke: C.b, 'stroke-width': 4}, g);
-    mt(g, P.X(4), P.Y(0) + 22, '4'); mt(g, P.X(4 + h), P.Y(0) + 22, '4+h'); mt(g, P.X(4 + h / 2), P.Y(0) - 8, 'h', {style: `fill:${C.w};font-weight:700`}); mt(g, P.X(4) - 24, P.Y(2.6), 'f(4)', {style: `fill:${C.b}`});
+    const h = fn(x), y = sq(x); ar.setAttribute('d', x > 0 ? T.fill(0, x, fn, undefined, 2) : ''); [...cut.children].forEach((e, i) => e.setAttribute('opacity', x >= Math.floor(i / 2) + .999 ? 1 : 0));
+    hi.setAttribute('d', h > .05 ? `M${T.X(x)} ${T.Y(0)}V${T.Y(h)}` : ''); hl.textContent = h > .6 ? num(h) : ''; set(hl, {x: T.X(x) + 8, y: T.Y(h / 2) + 6});
+    gc.setAttribute('d', x > 0 ? D.path(0, x, sq, 60) : ''); set(dot, {cx: D.X(x), cy: D.Y(y)});
+    const X0 = D.X(x - 1), X1 = D.X(x), Y0 = D.Y(y - h), Y1 = D.Y(y); tri.setAttribute('d', `M${X0} ${Y0}H${X1}V${Y1}Z`); run1.setAttribute('d', `M${X0} ${Y0}H${X1}`); rise.setAttribute('d', h > .05 ? `M${X1} ${Y0}V${Y1}` : '');
+    const e = x > 3.9 ? .12 : .3; tg.setAttribute('d', `M${D.X(x - 1.15)} ${D.Y(y - h * 1.15)}L${D.X(x + e)} ${D.Y(y + h * e)}`);
+    rl.textContent = h > .6 ? num(h) : ''; set(rl, {x: X1 + 8, y: (Y0 + Y1) / 2 + 6}); set(ol, {x: (X0 + X1) / 2, y: Y0 + 17, opacity: x > .6 ? 1 : 0});
+    $('#x5').textContent = num(x); $('#f5').textContent = num(h); $('#v5').textContent = num(y); $('#d5').textContent = num(h);
+    $('#s5').innerHTML = x < .05 ? '從 0 出發，還沒累積。下面的切線是<b>平的</b>，斜率 0。' : `上面的<b class="ch">高度 ${num(h)}</b>，和下面切線「走 1、升 ${num(h)}」的<b class="ch">紫色線段一樣長</b>。${x > 3 ? '<b>切線變得很陡了！</b>' : '切線越來越陡。'}`;
+  };
+  const H = handle(T, {v: 1, min: 0, max: 4, step: .1, y: 9.3 * U + 48, color: CT, label: '累積到 x', on: v => { x = Math.round(v * 20) / 20; draw(); }, grab: () => { if (an) an.stop(); }, demo: .8});
+  $('#p5').onclick = () => { H.stop(); if (an) an.stop(); if (reduce) return H.put(4); H.put(0); an = Motion.animate(0, 4, {duration: 7, ease: 'linear', onUpdate: v => H.put(v), onComplete: () => H.put(4)}); };
+  draw();
+})();
+
+// ── PART 5 ③：剛加上去的那一條
+(() => {
+  const s = $('#g6'), h0 = 244, I = $$('#b6 button'), fn = x => 2 * x; set(s, {viewBox: `0 0 360 ${h0}`});
+  const g = el('g', {}, s); let h = 1, an, run = 0;
+  const draw = () => {
+    g.textContent = ''; const P = plot(g, {x: [3 - .9 * h, 3 + 1.9 * h], y: [0, 10], h: h0, pad: [16, 16, 34, 16]}), a = 3 - .9 * h, b = 3 + 1.9 * h;
+    el('path', {d: P.fill(a, 3, fn), fill: '#e8f2f8'}, g); el('path', {d: P.fill(3, 3 + h, fn), fill: P5}, g);
+    el('rect', {x: P.X(3), width: P.X(3 + h) - P.X(3), y: P.Y(6), height: P.Y(0) - P.Y(6), fill: 'none', stroke: C.w, 'stroke-width': 2, 'stroke-dasharray': '6 4'}, g);
+    el('path', {d: `M8 ${P.Y(0)}H352`, stroke: C.ink, 'stroke-width': 1.6}, g); P.curve(a, b, fn);
+    el('path', {d: `M${P.X(3)} ${P.Y(0)}V${P.Y(6)}`, stroke: C.h, 'stroke-width': 5}, g);
+    mt(g, P.X(3), P.Y(0) + 22, '3'); mt(g, P.X(3 + h), P.Y(0) + 22, '3+h'); mt(g, P.X(3 + h / 2), P.Y(0) - 8, 'h', {style: `fill:${C.w};font-weight:700`}); mt(g, P.X(3) - 30, P.Y(2.6), '高 6', {style: `fill:${C.h};font-weight:700`});
   };
   const upd = (b, first) => {
-    const to = +b.dataset.h, from = h, my = ++run, d = GF(4 + to) - GF(4); onOnly('#b6', b); if (an) an.stop();
+    const to = +b.dataset.h, from = h, my = ++run; onOnly('#b6', b); if (an) an.stop();
     if (first) draw(); else an = tween(t => { if (my === run) { h = Math.exp(lerp(Math.log(from), Math.log(to), t)); draw(); } }, {ease: 'easeInOut', duration: 1});
-    $('#a6').textContent = fx(d, to < .1 ? 4 : 3); $('#q6').textContent = fx(d / to, 3); $('#f6').textContent = fx(f(4), 3);
-    $('#s6').innerHTML = to > 1 ? '上緣還有點彎，跟虛線長方形差一些。' : to > .2 ? `放大來看，細條更像長方形了。多的水量 ÷ ${ks('h')}，越來越靠近 ${ks('f(4)')}。` : to > .05 ? '幾乎就是長方形：<b>高 f(4) × 寬 h</b>。' : `多的水量 ÷ ${ks('h')} 就是 ${ks("g'(4)")}，而它跑到 ${ks('f(4)')}。<b>所以 ${ks("g'(4)=f(4)")}。</b>`;
+    const d = 6 * to + to * to; $('#a6').textContent = +d.toFixed(4); $('#q6').textContent = +(6 + to).toFixed(2); $('#f6').textContent = '6';
+    $('#s6').innerHTML = to === 1 ? `多出的面積是 ${ks('4^2-3^2=7')}。上緣還斜斜的，比虛線長方形多一小塊。` : to === .1 ? `${ks('3.1^2-3^2=0.61')}，除以 0.1 是 6.1。<b>放大看，已經很像長方形了。</b>` : `${ks('3.01^2-3^2=0.0601')}，除以 0.01 是 6.01。<b>幾乎就是長方形</b>，除以 ${ks('h')} 就剩下<b class="ch">高 6</b>。`;
   };
   I.forEach(b => b.onclick = () => upd(b)); upd(I[0], true);
 })();
 mini('#try5', [
   {q: `${ks('\\displaystyle g(x)=\\int_1^x(t^2+3)\\,dt')}，${ks("g'(x)=")}？`, o: [ks('x^2+3'), ks('\\frac{x^3}{3}+3x'), ks('2x')], a: 0, w: `把裡面的 ${ks('t')} 換成 ${ks('x')} 就好。`, h: ['', '這是在積分。題目問的是「積分完再微分」。', '多微分了一次。積分再微分，會剛好變回原來的。']},
-  {q: `${ks('\\displaystyle g(x)=\\int_2^x(t^2+1)^{10}\\,dt')}，${ks("g'(x)=")}？`, o: [ks('(x^2+1)^{10}'), ks('10(x^2+1)^9'), '太難，算不出來'], a: 0, col: 1, w: '10 次方看起來很可怕，<b>但是根本不用乘開</b>。', h: ['', '不用對裡面微分。積分再微分，會變回原來的。', '不用真的積分。想想水桶：水量的變化速度就是什麼？']}]);
+  {q: `${ks('\\displaystyle g(x)=\\int_2^x(t^2+1)^{10}\\,dt')}，${ks("g'(x)=")}？`, o: [ks('(x^2+1)^{10}'), ks('10(x^2+1)^9'), '太難，算不出來'], a: 0, col: 1, w: '10 次方看起來很可怕，<b>但是根本不用乘開</b>。', h: ['', '不用對裡面微分。積分再微分，會變回原來的。', '不用真的積分。想想 PART 5：剛加上去的那條，有多高？']}]);
 
-// ── PART 6：水表
+// ── PART 6：存摺
 (() => {
   const P = plot('#g7', {x: [-.3, 5.3], y: [0, 11], h: 340, pad: [14, 20, 148, 22]}), s = P.s, I = $('#c7');
   const ar = el('path', {fill: C.bl}, s); P.axes(); P.curve(0, 5.1, x => 2 * x); mt(s, P.X(3.6), P.Y(9.2), 'y=2x', {style: `fill:${C.b}`});
   for (let i = 1; i <= 5; i++) mt(s, P.X(i), P.Y(0) + 20, String(i), {style: 'fill:#566473;font-size:15px'});
   const meter = (x, name, col) => {
-    el('rect', {x, y: 272, width: 150, height: 62, rx: 12, fill: '#26313c'}, s); el('rect', {x: x + 10, y: 298, width: 130, height: 30, rx: 5, fill: '#d9f2d9'}, s);
+    el('rect', {x, y: 272, width: 150, height: 62, rx: 12, fill: col}, s); el('rect', {x: x + 8, y: 297, width: 134, height: 31, rx: 5, fill: '#fff8e6'}, s);
     txt(s, x + 75, 291, name, 'fill:#fff;font-size:14px'); const t = txt(s, x + 75, 321, '', `font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;fill:${col}`); return t;
   };
-  const ma = meter(18, '月初讀數 F(a)', CT), mb = meter(192, '月底讀數 F(b)', C.r);
+  const ma = meter(18, '期初餘額 F(a)', CT), mb = meter(192, '期末餘額 F(b)', C.r);
   let a = 1, b = 3, c = 0, an, run = 0;
   const draw = () => { ar.setAttribute('d', P.fill(a, b, x => 2 * x)); ma.textContent = fx(a * a + c, 2); mb.textContent = fx(b * b + c, 2); };
   const text = () => {
     const cc = +I.value, t = num; $('#c7-o').textContent = `c = ${cc}`;
     K(`\\int_{${t(a)}}^{${t(b)}}2x\\,dx=${KR(t(b * b + cc))}-${KT(t(a * a + cc))}=${t(b * b - a * a)}`, $('#f7'), true);
-    $('#s7').innerHTML = cc ? `水表原本就有 ${cc} 度，<b>月初、月底都多 ${cc}，一減就消掉</b>。` : `藍色面積就是用水量。拖拖看，再動動 ${ks('c')}，答案會變嗎？`;
+    $('#s7').innerHTML = cc ? `原本就有 ${cc} 元，<b>期初、期末都多 ${cc}，一減就消掉</b>。` : `藍色面積就是這段時間存的錢。拖拖看，再動動 ${ks('c')}，答案會變嗎？`;
   };
   I.oninput = () => { const to = +I.value, from = c, my = ++run; if (an) an.stop(); an = tween(t => { if (my === run) { c = lerp(from, to, t); draw(); } }, {duration: .6, bounce: 0}); text(); };
-  handle(P, {v: a, min: 0, max: () => b - .5, step: .5, y: 238, color: CT, label: '月初 a', gap: 26, on: v => { a = v; draw(); text(); }, demo: .7});
-  handle(P, {v: b, min: () => a + .5, max: 5, step: .5, y: 238, color: C.r, label: '月底 b', gap: 26, on: v => { b = v; draw(); text(); }, demo: 1});
+  handle(P, {v: a, min: 0, max: () => b - .5, step: .5, y: 238, color: CT, label: '期初 a', gap: 26, on: v => { a = v; draw(); text(); }, demo: .7});
+  handle(P, {v: b, min: () => a + .5, max: 5, step: .5, y: 238, color: C.r, label: '期末 b', gap: 26, on: v => { b = v; draw(); text(); }, demo: 1});
   draw(); text();
 })();
 
