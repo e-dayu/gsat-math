@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#fbfaf7">
+<meta property="og:title" content="積分習題6詳解">
+<meta property="og:description" content="f(x)=x(1−x)(1+x²)：定積分什麼時候最大？為什麼從 −c 積到 c 一定是負的？">
+<script src="line.js"></script>
+<title>積分習題6詳解</title>
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css?v=6">
+</head>
+<body>
+<div id="bar"></div>
+<div class="wrap">
+<a class="back" href="index.html?openExternalBrowser=1">← 回課程首頁</a>
+<div class="course-id">第三章 積分・習題詳解</div>
+<h1>積分習題6詳解</h1>
+<p class="sub">會用到：page3（定積分可能是負的）、page4_5（存摺）、page6_7（奇偶函數）。</p>
+<div class="qr"><img src="qr-ex6.svg" width="136" height="136" alt="本頁網址的 QR code"><div><b>用 iPad 看更清楚</b><br>打開 iPad 相機，掃左邊的 QR code，就能換成大螢幕閱讀。</div></div>
+
+<div class="card goal">
+<b>題目</b>
+<p>設四次多項式 <span data-k="f(x)=x(1-x)(1+x^2)"></span></p>
+<p>(1) 選取積分區間 <span data-k="a\le x\le b"></span>，使得定積分 <span data-k="\int_a^bf(x)\,dx"></span> 達到最大值，並求此最大值。</p>
+<p style="margin-bottom:0">(2) 設 <span data-k="c>0"></span>，求證 <span data-k="\int_{-c}^{c}f(x)\,dx"></span> 恆為負值。</p>
+</div>
+<p class="tip">建議：先自己想 3 分鐘，再往下看。</p>
+
+<div class="step">先做這一步</div>
+<h2>看 <span data-k="f(x)"></span> 什麼時候是正的</h2>
+<p>兩小題都跟「正、負」有關，所以先找出 <span data-k="f(x)"></span> 的正負。</p>
+<ul>
+<li><span data-k="1+x^2"></span> <b>永遠是正的</b>（至少是 1），不會改變正負。</li>
+<li>所以正負只看 <span data-k="x(1-x)"></span>：兩個根是 <span data-k="0"></span> 和 <span data-k="1"></span>。</li>
+</ul>
+<div class="key"><span data-k="0<x<1"></span> 時 <b class="cb"><span data-k="f(x)>0"></span></b>；其他地方 <b class="cr"><span data-k="f(x)\le0"></span></b>。</div>
+<p>順便展開，等一下要積分：</p>
+<div class="fm"><span data-k="\begin{aligned}f(x)&=(x-x^2)(1+x^2)\\&=x-x^2+x^3-x^4\end{aligned}"></span></div>
+
+<div class="step">第 (1) 小題</div>
+<h2>怎麼選 <span data-k="a,b"></span>，定積分最大？</h2>
+<p>page3 說過：定積分像<b>結餘</b>，<b class="cb">在上面的加</b>、<b class="cr">在下面的減</b>。<b>左右拖兩個圓點，試試看哪裡最大：</b></p>
+<div class="card">
+<svg class="fig" id="g1" viewBox="0 0 360 448" aria-label="上圖是 f(x) 與 a 到 b 的區域，下圖是存摺 F(x) 與期末減期初"></svg>
+<div class="stats"><div><span data-k="a"></span><b id="a1" class="ct"></b></div><div><span data-k="b"></span><b id="b1" class="cr"></b></div><div>定積分<b id="v1"></b></div></div>
+<div class="btns" data-hint><button class="btn" id="p1">▶ 找最大值</button></div>
+<p class="say" id="s1" aria-live="polite"></p>
+</div>
+<div class="card" id="st1"></div>
+<div class="no"><b>✗ 以為區間越大，定積分越大</b><br><span data-k="[0,1]"></span> 外面的都在 <span data-k="x"></span> 軸下面，拿越多，<b>減得越多</b>。</div>
+
+<div class="step">第 (2) 小題</div>
+<h2>為什麼從 <span data-k="-c"></span> 積到 <span data-k="c"></span> 一定是負的？</h2>
+<p>上下限是 <span data-k="-c"></span> 到 <span data-k="c"></span>，<b>對稱</b>。想到 page6_7 的奇偶函數：<b>把 <span data-k="f(x)"></span> 拆成奇數次方和偶數次方兩堆。</b></p>
+<div class="card">
+<svg class="fig" id="g2" viewBox="0 0 360 300" role="img" aria-label="f(x) 拆成奇數次方與偶數次方，在 −c 到 c 的區域"></svg>
+<div class="seg" id="b2" data-hint><button data-m="f" class="on"><span data-k="f(x)"></span></button><button data-m="o">奇：<span data-k="x+x^3"></span></button><button data-m="e">偶：<span data-k="-x^2-x^4"></span></button></div>
+<div class="sl"><output id="c2-o"></output><button data-for="c2" data-d="-0.05" aria-label="c 變小">−</button><input id="c2" type="range" min="0.1" max="0.8" step="0.05" value="0.6" aria-label="c"><button data-for="c2" data-d="0.05" aria-label="c 變大">+</button></div>
+<div class="fm" id="f2"></div>
+<p class="say" id="s2" aria-live="polite"></p>
+</div>
+<div class="card" id="st2"></div>
+<div class="no"><b>✗ 看到 <span data-k="-c"></span> 到 <span data-k="c"></span> 就寫 0</b><br><span data-k="f(x)"></span> <b>不是</b>奇函數（有偶數次方），不能整個寫 0。只有奇數次方的那堆是 0。</div>
+<div class="no"><b>✗ 只代一個 <span data-k="c"></span> 算出負的，就說證完了</b><br>「恆為負值」是<b>每一個</b> <span data-k="c>0"></span> 都要成立。所以要算出含 <span data-k="c"></span> 的式子，再說明它一定是負的。</div>
+<h3>另一個看法：左右配對</h3>
+<p>把 <span data-k="x"></span> 和 <span data-k="-x"></span> 配成一對，加起來：</p>
+<div class="fm"><span data-k="\begin{gathered}f(x)+f(-x)=-2x^2-2x^4\\<0\quad(x\ne0)\end{gathered}"></span></div>
+<p>奇數次方一正一負抵消，只剩偶數次方，<b>每一對加起來都是負的</b>。所以全部加起來也是負的。</p>
+
+<div class="step">換你試試</div>
+<h2>同樣的方法</h2>
+<div class="card" id="try"></div>
+
+<a class="btn ghost next" href="integral-page6_7.html?openExternalBrowser=1">← 回積分page6_7教學</a>
+<div class="foot">看不懂的地方，截圖傳到 LINE 問。</div>
+</div>
+<script src="vendor/katex/katex.min.js"></script>
+<script src="vendor/motion.js"></script>
+<script src="common.js?v=2"></script>
+<script src="plot.js?v=1"></script>
+<script src="integral-ex6.js?v=1"></script>
+</body>
+</html>
