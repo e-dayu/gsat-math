@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#fbfaf7">
+<meta property="og:title" content="積分習題11_12詳解">
+<meta property="og:description" content="11：用「定積分＝0」找出 a 和積分常數 C。12：三次函數與 y=25 交三點，反曲點和定積分一眼看穿。">
+<script src="line.js"></script>
+<title>積分習題11_12詳解</title>
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css?v=6">
+</head>
+<body>
+<div id="bar"></div>
+<div class="wrap">
+<a class="back" href="index.html?openExternalBrowser=1">← 回課程首頁</a>
+<div class="course-id">第三章 積分・習題詳解</div>
+<h1>積分習題11_12詳解</h1>
+<p class="sub">會用到：page3（定積分是結餘，可能是負的）、page4_5（反導函數要加 C）、page6_7（轉半圈，上下抵消）。</p>
+<div class="qr"><img src="qr-ex11_12.svg" width="136" height="136" alt="本頁網址的 QR code"><div><b>用 iPad 看更清楚</b><br>打開 iPad 相機，掃左邊的 QR code，就能換成大螢幕閱讀。</div></div>
+
+<div class="card goal">
+<b>第 11 題</b>
+<p>二個多項式函數 <span data-k="f(x)=2x-a"></span> 及 <span data-k="g(x)"></span> 滿足 <span data-k="\int_0^1f(x)\,dx=\int_0^1g(x)\,dx=0"></span>，且 <span data-k="g'(x)=3f(x)"></span>。求：</p>
+<p style="margin-bottom:0">(1) 實數 <span data-k="a"></span> 的值　(2) 函數 <span data-k="g(x)"></span></p>
+</div>
+<p class="tip">建議：先自己想 3 分鐘，再往下看。</p>
+
+<div class="step">11 (1)</div>
+<h2>定積分 ＝ 0：存進的和花掉的一樣多</h2>
+<p>定積分是<b>結餘</b>：<b class="cb">藍色（x 軸上面）是存進</b>，<b class="cr">紅色（下面）是花掉</b>。結餘 0，就是<b>藍、紅一樣大</b>。</p>
+<p>拉拉看 <span data-k="a"></span>，什麼時候藍、紅一樣大？</p>
+<div class="card">
+<svg class="fig" id="g11a" role="img" aria-label="直線 y=2x−a 在 0 到 1 之間，x 軸上方藍色、下方紅色"></svg>
+<div class="stats"><div>藍（存進）<b class="cb" id="u11a"></b></div><div>紅（花掉）<b class="cr" id="d11a"></b></div><div>結餘<b id="i11a"></b></div></div>
+<div class="sl" data-hint><output id="ka-o"></output><button data-for="ka" data-d="-0.05" aria-label="a 變小">−</button><input id="ka" type="range" min="0" max="2" step="0.05" value="0.3" aria-label="a"><button data-for="ka" data-d="0.05" aria-label="a 變大">+</button></div>
+<div class="btns"><button class="btn" id="go11a">▶ 讓結餘變 0</button></div>
+<p class="say" id="s11a" aria-live="polite"></p>
+</div>
+<p>圖看出來了，再用算的確認：</p>
+<div class="card" id="st11a"></div>
+<div class="key">(1) <span data-k="a=1"></span></div>
+
+<div class="step">11 (2)</div>
+<h2>從 <span data-k="g'"></span> 找 <span data-k="g"></span>：別忘了 <span data-k="C"></span></h2>
+<p>知道 <span data-k="g'(x)"></span>，倒回去找 <span data-k="g(x)"></span>，就是找<b>反導函數</b>。page4_5 說過：<b>微分會把常數吃掉</b>，所以倒回去時要補一個 <span data-k="C"></span>。</p>
+<div class="card" id="st11b"></div>
+<p>每一個 <span data-k="C"></span> 都是一條形狀一樣的拋物線，只是<b>上下位置不同</b>。哪一條才對？用另一個條件 <span data-k="\int_0^1g(x)\,dx=0"></span> 來挑。拉拉看 <span data-k="C"></span>：</p>
+<div class="card">
+<svg class="fig" id="g11b" role="img" aria-label="拋物線 y=3x²−3x+C 隨 C 上下移動，0 到 1 之間上方藍色、下方紅色"></svg>
+<div class="stats"><div>藍（存進）<b class="cb" id="u11b"></b></div><div>紅（花掉）<b class="cr" id="d11b"></b></div><div>結餘<b id="i11b"></b></div></div>
+<div class="sl" data-hint><output id="kc-o"></output><button data-for="kc" data-d="-0.05" aria-label="C 變小">−</button><input id="kc" type="range" min="-0.5" max="1.5" step="0.05" value="0" aria-label="C"><button data-for="kc" data-d="0.05" aria-label="C 變大">+</button></div>
+<div class="btns"><button class="btn" id="go11b">▶ 讓結餘變 0</button></div>
+<p class="say" id="s11b" aria-live="polite"></p>
+</div>
+<div class="card" id="st11c"></div>
+<div class="key">(2) <span data-k="g(x)=3x^2-3x+\frac12"></span></div>
+<div class="no"><b>✗ 忘了加 C，直接寫 <span data-k="g(x)=3x^2-3x"></span></b><br>檢查一下：<span data-k="\int_0^1(3x^2-3x)\,dx=1-\frac32=-\frac12\ne0"></span>，不符合題目。題目給「<span data-k="\int_0^1g(x)\,dx=0"></span>」，就是要你用它來找 <span data-k="C"></span>。</div>
+
+<div class="card goal" style="margin-top:46px">
+<b>第 12 題</b>
+<p>已知實係數三次多項式函數 <span data-k="y=f(x)"></span> 的最高次項係數為 12，其圖形與水平線 <span data-k="y=25"></span> 交於相異的三點 <span data-k="(0,25)"></span>、<span data-k="(1,25)"></span> 及 <span data-k="(2,25)"></span>。</p>
+<p>(1) 試求曲線 <span data-k="y=f(x)"></span> 圖形上的反曲點坐標</p>
+<p style="margin-bottom:0">(2) 試求定積分 <span data-k="\int_0^2f(x)\,dx"></span> 之值</p>
+</div>
+<p class="tip">建議：先自己想 3 分鐘，再往下看。</p>
+
+<div class="step">12 先做這一步</div>
+<h2>往下移 25，三個交點就變成三個根</h2>
+<p>三個點的高度都是 25。整個圖<b>往下移 25</b>，它們就掉到 <span data-k="x"></span> 軸上，變成 <span data-k="f(x)-25"></span> 的三個根：<span data-k="0,\ 1,\ 2"></span>。</p>
+<div class="card">
+<svg class="fig" id="g12a" role="img" aria-label="三次曲線和 y=25 交三點，整個往下移 25 後，三點落在 x 軸上"></svg>
+<div class="seg" id="b12a" data-hint><button data-m="0" class="on">原本的 <span data-k="f(x)"></span></button><button data-m="1">往下移 25</button></div>
+<p class="say" id="s12a" aria-live="polite"></p>
+</div>
+<p>三次多項式、最高次項係數 12、三個根 0、1、2，所以</p>
+<div class="key"><span data-k="f(x)-25=12x(x-1)(x-2)"></span><br><span data-k="f(x)=12x(x-1)(x-2)+25"></span></div>
+<p class="tip">為什麼前面是 12？把 <span data-k="12x(x-1)(x-2)"></span> 展開，最高次項是 <span data-k="12x^3"></span>，剛好符合「最高次項係數為 12」。</p>
+
+<div class="step">12 (1)</div>
+<h2>反曲點：彎曲方向改變的地方</h2>
+<p>反曲點是曲線從「<b class="cb">向下彎 ∩</b>」換成「<b class="cg">向上彎 ∪</b>」的那一點，也就是 <span data-k="f''(x)"></span> 由負變正（或由正變負）的地方。</p>
+<div class="card" id="st12a"></div>
+<p>再看圖。三次函數的圖形對它的反曲點<b>點對稱</b>：繞著反曲點<b>轉半圈</b>，會跟自己重疊（跟 page6_7 的奇函數一樣）。</p>
+<div class="card">
+<svg class="fig" id="g12b" role="img" aria-label="三次曲線左半向下彎、右半向上彎，左半繞點 (1,25) 轉半圈後與右半重疊"></svg>
+<div class="btns" data-hint><button class="btn" id="p12b">▶ 繞 (1, 25) 轉半圈</button></div>
+<p class="say" id="s12b" aria-live="polite">按按看，左半邊轉過去會落在哪裡？</p>
+</div>
+<p class="tip">快速檢查：三個交點 0、1、2 是<b>等距</b>的，中間那個 <span data-k="(1,25)"></span> 剛好就是對稱中心。</p>
+<div class="key">(1) 反曲點 <span data-k="(1,\,25)"></span></div>
+
+<div class="step">12 (2)</div>
+<h2>轉半圈補洞，變成一個長方形</h2>
+<p>從 0 積到 2，就是求曲線下面那塊的面積（整塊都在 <span data-k="x"></span> 軸上面）。它不是長方形：<b class="cg">左邊多一塊凸起</b>，<b class="cr">右邊少一塊凹洞</b>。</p>
+<p>把凸起<b>繞反曲點 <span data-k="(1,25)"></span> 轉半圈</b>，剛好補進凹洞：</p>
+<div class="card">
+<svg class="fig" id="g12c" role="img" aria-label="曲線下 0 到 2 的區域，左邊凸起繞 (1,25) 轉半圈補進右邊凹洞，變成長 2、高 25 的長方形"></svg>
+<div class="btns" data-hint><button class="btn" id="p12c">▶ 轉半圈補洞</button></div>
+<p class="say" id="s12c" aria-live="polite">按按看，補完以後變成什麼形狀？</p>
+</div>
+<div class="fm"><span data-k="\displaystyle\int_0^2f(x)\,dx=2\times25=50"></span></div>
+<p>用算的也可以，拆成兩部分：</p>
+<div class="card" id="st12b"></div>
+<div class="key">(2) <span data-k="\int_0^2f(x)\,dx=50"></span></div>
+<div class="no"><b>✗ 以為 <span data-k="f(x)=12x(x-1)(x-2)"></span></b><br>那是往下移 25 以後的函數。原本的 <span data-k="f(x)"></span> 要<b>把 25 加回去</b>，不然反曲點會變成 <span data-k="(1,0)"></span>、定積分會變成 0。</div>
+
+<div class="step">自我檢查</div>
+<h2>三題小測</h2>
+<div class="card" id="quiz"></div>
+<div class="card">
+<b>用自己的話說：第 11 題 (2) 為什麼一定要用到「<span data-k="\int_0^1g(x)\,dx=0"></span>」？</b>
+<textarea id="own" rows="4" placeholder="可以用 C 和拋物線上下移動來說明" aria-label="用自己的話說明"></textarea>
+<div class="btns"><button class="btn" id="copy">複製我的作答</button></div>
+<div class="msg" id="msg" aria-live="polite"></div>
+</div>
+<a class="btn ghost next" href="integral-page6_7.html?openExternalBrowser=1">← 回積分page6_7教學</a>
+<div class="foot">按「複製我的作答」後，貼到 LINE 傳回。看不懂的地方，截圖傳到 LINE 問。</div>
+</div>
+<script src="vendor/katex/katex.min.js"></script>
+<script src="vendor/motion.js"></script>
+<script src="common.js?v=2"></script>
+<script src="plot.js?v=1"></script>
+<script src="integral-ex11_12.js?v=1"></script>
+</body>
+</html>
