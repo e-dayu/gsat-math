@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#fbfaf7">
+<meta property="og:title" content="積分習題9_10詳解">
+<meta property="og:description" content="第 9 題：指數和對數拼成一個長方形；第 10 題：三次函數與 x 軸圍成的面積。">
+<script src="line.js"></script>
+<title>積分習題9_10詳解</title>
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css?v=6">
+</head>
+<body>
+<div id="bar"></div>
+<div class="wrap">
+<a class="back" href="index.html?openExternalBrowser=1">← 回課程首頁</a>
+<div class="course-id">第三章 積分・習題</div>
+<h1>積分習題9_10詳解</h1>
+<p class="sub">課本第 136 頁的第 9、10 題。</p>
+<div class="qr"><img src="qr-ex9_10.svg" width="136" height="136" alt="本頁網址的 QR code"><div><b>用 iPad 看更清楚</b><br>打開 iPad 相機，掃左邊的 QR code，就能換成大螢幕閱讀。</div></div>
+
+<div class="step">第 9 題</div>
+<h2>試求 <span data-k="\displaystyle\int_0^22^x\,dx+\int_1^4\log_2x\,dx"></span></h2>
+<div class="card goal">
+<b>卡住的地方：</b>第一個好算。第二個，<span data-k="\log_2x"></span> 的反導函數是什麼？課本沒教。
+<p style="margin-bottom:0">這題的祕密是：<b>不用算第二個。畫圖，兩塊會拼成一個長方形。</b></p>
+</div>
+
+<h3>線索：它們是一對「反過來」的函數</h3>
+<p><span data-k="2^1=2"></span>，所以 <span data-k="\log_22=1"></span>；<span data-k="2^2=4"></span>，所以 <span data-k="\log_24=2"></span>。</p>
+<p>一個把 <span data-k="1\to2"></span>，另一個就把 <span data-k="2\to1"></span>。<b>x、y 對調</b>，所以兩個圖形對斜線 <span data-k="y=x"></span> 對稱，像照鏡子。</p>
+
+<div class="card">
+<svg class="fig" id="g9" role="img" aria-label="y=2 的 x 次方下方的藍色區域，沿 y=x 翻過去，跟 log 曲線下方的綠色區域拼成 4 乘 2 的長方形"></svg>
+<div class="seg" id="b9" data-hint><button data-m="0" class="on">原本兩塊</button><button data-m="1">藍色沿 y=x 翻過去</button></div>
+<div class="stats"><div>藍<b class="cb" id="a9b"><span data-k="\int_0^22^x\,dx"></span></b></div><div>綠<b class="cg" id="a9g"><span data-k="\int_1^4\log_2x\,dx"></span></b></div><div>合起來<b id="a9s">?</b></div></div>
+<p class="say" id="s9" aria-live="polite">藍色是第一個積分，綠色是第二個。按「翻過去」看看。</p>
+</div>
+<p><b>為什麼剛好拼得起來？</b>藍色的底邊在 <span data-k="x"></span> 軸上，從 0 到 2；翻過去以後，底邊變成貼在 <span data-k="y"></span> 軸上，從 0 到 2。它的彎邊 <span data-k="y=2^x"></span>，翻過去就變成 <span data-k="y=\log_2x"></span>，<b>剛好是綠色的上邊</b>。兩塊沿著同一條曲線接在一起，沒有縫，也沒有重疊。</p>
+<div class="key">藍 ＋ 綠 ＝ 寬 4、高 2 的長方形 ＝ <span data-k="4\times2=8"></span></div>
+
+<h3>一步一步寫出來</h3>
+<div class="card" id="st9"></div>
+<div class="tip">為什麼長方形是寬 4、高 2？看綠色的右上角：<span data-k="x=4"></span> 時 <span data-k="\log_24=2"></span>。積分範圍的 4 和 2，剛好就是 <span data-k="2^2=4"></span> 這一對。</div>
+<div class="no"><b>✗ 硬要算 <span data-k="\int\log_2x\,dx"></span></b><br>高中沒教它的反導函數。看到「指數＋對數」、範圍又對得上（0 到 2 配 1 到 4），就想到<b>翻過去拼長方形</b>。</div>
+
+<div class="step">第 10 題</div>
+<h2>已知 <span data-k="f(x)=x^3-a^2x\ (a>0)"></span> 與 <span data-k="x"></span> 軸所圍成的區域面積為 8，求 <span data-k="a"></span>。</h2>
+
+<h3>第一步：找它和 x 軸交在哪</h3>
+<div class="fm"><span data-k="\displaystyle x^3-a^2x=x(x^2-a^2)=x(x+a)(x-a)"></span></div>
+<p>交在 <span data-k="x=-a,\ 0,\ a"></span> 三個點，切出<b>兩塊</b>：左邊一塊在上面，右邊一塊在下面。<b>拖拖看圓點</b>，換 <span data-k="a"></span> 的大小：</p>
+<div class="card">
+<svg class="fig" id="g10" role="img" aria-label="三次函數與 x 軸圍成兩塊，左塊在上、右塊在下，拖圓點改變 a"></svg>
+<div class="stats"><div><span data-k="a"></span><b id="v10a">2</b></div><div>一塊<b class="cb" id="v10h">4</b></div><div>總面積<b class="ch" id="v10s">8</b></div></div>
+<div class="btns" data-hint><button class="btn" id="p10">▶ 右邊轉半圈</button></div>
+<p class="say" id="s10" aria-live="polite"></p>
+</div>
+<p><span data-k="f(x)"></span> 只有<b>奇數次方</b>（<span data-k="x^3"></span> 和 <span data-k="x"></span>），是<b>奇函數</b>：右邊那塊繞原點轉半圈，剛好蓋在左邊那塊上（page6_7 PART 5 學過）。<b>兩塊一樣大。</b></p>
+<div class="key">總面積 ＝ 左邊那塊的 2 倍 ＝ <span data-k="\displaystyle2\int_{-a}^{0}f(x)\,dx"></span></div>
+<div class="no"><b>✗ 直接寫 <span data-k="\int_{-a}^{a}f(x)\,dx=8"></span></b><br>奇函數從 <span data-k="-a"></span> 積到 <span data-k="a"></span>，上下抵消，一定是 <b>0</b>。那是結餘，不是面積。</div>
+
+<h3>一步一步寫出來</h3>
+<div class="card" id="st10"></div>
+<div class="tip"><b>為什麼 <span data-k="a"></span> 變 2 倍，面積變 16 倍？</b>拖圓點時注意看：<span data-k="a"></span> 從 1 變 2，<b>寬度</b>變 2 倍；最高點的<b>高度</b>跟著 <span data-k="a^3"></span> 長，變 8 倍。寬 2 倍 × 高 8 倍 ＝ <b>16 倍</b>，所以面積是 <span data-k="a^4"></span> 在長。<span data-k="a=1"></span> 時面積 <span data-k="\frac12"></span>，乘 16 就是 8 ✓</div>
+
+<div class="step">自我檢查</div>
+<h2>四題小測</h2>
+<div class="card" id="quiz"></div>
+<div class="card">
+<b>用自己的話說：第 9 題為什麼不用算 <span data-k="\log_2x"></span> 的積分？</b>
+<textarea id="own" rows="4" placeholder="可以用「翻過去」「長方形」來說明" aria-label="用自己的話說明"></textarea>
+<div class="btns"><button class="btn" id="copy">複製我的作答</button></div>
+<div class="msg" id="msg" aria-live="polite"></div>
+</div>
+<a class="btn ghost next" href="integral-page6_7.html?openExternalBrowser=1">← 回積分page6_7教學</a>
+<div class="foot">按「複製我的作答」後，貼到 LINE 傳回。</div>
+</div>
+<script src="vendor/katex/katex.min.js"></script>
+<script src="vendor/motion.js"></script>
+<script src="common.js?v=2"></script>
+<script src="plot.js?v=1"></script>
+<script src="integral-ex9_10.js?v=1"></script>
+</body>
+</html>
