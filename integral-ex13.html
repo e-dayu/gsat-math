@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#fbfaf7">
+<meta property="og:title" content="積分習題13詳解">
+<meta property="og:description" content="三次函數：反曲點、切線求係數；再用「圍成面積為 2」求 a。">
+<script src="line.js"></script>
+<title>積分習題13詳解</title>
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css?v=6">
+</head>
+<body>
+<div id="bar"></div>
+<div class="wrap">
+<a class="back" href="index.html?openExternalBrowser=1">← 回課程首頁</a>
+<div class="course-id">第三章 積分・習題詳解</div>
+<h1>積分習題13詳解</h1>
+<p class="sub">會用到：微分（切線斜率、反曲點）、page6_7（面積、奇函數）。</p>
+<div class="qr"><img src="qr-ex13.svg" width="136" height="136" alt="本頁網址的 QR code"><div><b>用 iPad 看更清楚</b><br>打開 iPad 相機，掃左邊的 QR code，就能換成大螢幕閱讀。</div></div>
+
+<div class="card goal">
+<b>題目</b>
+<p>設 <span data-k="f(x)=ax^3+bx^2+cx+d"></span> 為實係數三次多項式。已知原點 <span data-k="(0,0)"></span> 為函數 <span data-k="y=f(x)"></span> 的圖形之<b>反曲點</b>，且此圖形在原點的<b>切線</b>為 <span data-k="y=-x"></span>。</p>
+<p>(1) 試求 <span data-k="b,\ c,\ d"></span>。</p>
+<p style="margin-bottom:0">(2) 若 <span data-k="a>0"></span> 且 <span data-k="y=f(x)"></span> 的圖形與直線 <span data-k="y=0"></span> 所圍的有界區域面積為 2，試求 <span data-k="a"></span>。</p>
+</div>
+<p class="tip">建議：先自己想 3 分鐘，再往下看。</p>
+
+<div class="step">第 (1) 小題</div>
+<h2>一句話，藏了三個條件</h2>
+<p>題目只說了「原點是反曲點」和「切線是 <span data-k="y=-x"></span>」，但其實可以翻譯成<b>三個式子</b>。先準備好微分：</p>
+<div class="fm"><span data-k="\begin{aligned}f'(x)&=3ax^2+2bx+c\\f''(x)&=6ax+2b\end{aligned}"></span></div>
+<p><b>三個按鈕都按按看：</b></p>
+<div class="card">
+<svg class="fig" id="g1" aria-label="三次函數的圖形，原點、切線 y=−x、彎曲方向"></svg>
+<div class="seg" id="b1" data-hint><button data-m="d">① 過原點</button><button data-m="c">② 切線</button><button data-m="b">③ 反曲點</button></div>
+<div class="fm" id="f1"></div>
+<p class="say" id="s1" aria-live="polite">三個條件，各能求出一個字母。</p>
+</div>
+<div class="key">
+① 原點在圖上：<span data-k="f(0)=d=0"></span><br>
+② 切線斜率是 <span data-k="-1"></span>：<span data-k="f'(0)=c=-1"></span><br>
+③ 原點是反曲點：<span data-k="f''(0)=2b=0"></span><br>
+答：<b><span data-k="b=0,\ c=-1,\ d=0"></span></b>，所以 <span data-k="f(x)=ax^3-x"></span>
+</div>
+<div class="no"><b>✗ 漏掉 ①</b><br>「反曲點是原點」也告訴你：原點<b>在圖形上</b>。只寫 <span data-k="f''(0)=0"></span> 和 <span data-k="f'(0)=-1"></span>，就求不出 <span data-k="d"></span>。</div>
+
+<h3>那 <span data-k="a"></span> 呢？</h3>
+<p>拖拖看下面的 <span data-k="a"></span>：<b>不管 <span data-k="a"></span> 是多少，三個條件都成立。</b>所以第 (1) 小題求不出 <span data-k="a"></span>，要靠第 (2) 小題的面積。</p>
+<div class="card">
+<svg class="fig" id="g0" aria-label="改變 a，曲線變了，但都過原點、切線都是 y=−x"></svg>
+<div class="sl"><output id="a0-o"></output><button data-for="a0" data-d="-0.1" aria-label="a 變小">−</button><input id="a0" type="range" min="0.1" max="1.5" step="0.05" value="0.5" aria-label="a"><button data-for="a0" data-d="0.1" aria-label="a 變大">+</button></div>
+</div>
+
+<div class="step">第 (2) 小題</div>
+<h2>面積是 2，<span data-k="a"></span> 是多少？</h2>
+<p>現在 <span data-k="f(x)=ax^3-x"></span>。它<b>只有奇數次方</b>，是 page6_7 的<b>奇函數</b>：圖形對原點對稱。</p>
+<p><b>拖 <span data-k="a"></span> 看面積怎麼變，再按「轉半圈」：</b></p>
+<div class="card">
+<svg class="fig" id="g2" aria-label="y=ax³−x 與 x 軸圍成左右兩塊，面積隨 a 改變"></svg>
+<div class="sl"><output id="a2-o"></output><button data-for="a2" data-d="-0.05" aria-label="a 變小">−</button><input id="a2" type="range" min="0.1" max="1" step="0.01" value="0.6" aria-label="a"><button data-for="a2" data-d="0.05" aria-label="a 變大">+</button></div>
+<div class="stats"><div><span data-k="a"></span><b id="v2a" class="ch"></b></div><div>交點<b id="v2k" class="ct"></b></div><div>面積<b id="v2s"></b></div></div>
+<div class="btns" data-hint><button class="btn" id="p2r">▶ 轉半圈</button><button class="btn" id="p2f">▶ 找面積 = 2</button></div>
+<p class="say" id="s2" aria-live="polite"></p>
+</div>
+<p><span data-k="a"></span> 越小，圖形越<b>扁平、越寬</b>，圍出來的面積越大。下面一步一步算出「面積 = 2」時的 <span data-k="a"></span>：</p>
+<div class="card" id="st2"></div>
+<div class="key">答：<b><span data-k="a=\dfrac14"></span></b><br>驗算：<span data-k="f(x)=\tfrac14x^3-x"></span>，交點 <span data-k="0,\ \pm2"></span>，<span data-k="2\int_0^2\left(x-\tfrac14x^3\right)dx=2(2-1)=2"></span> ✓</div>
+<div class="no"><b>✗ 直接從 <span data-k="-\frac1{\sqrt a}"></span> 積到 <span data-k="\frac1{\sqrt a}"></span>，令它等於 2</b><br>奇函數對稱積分是 <b>0</b>（一正一負抵消），那是<b>結餘</b>，不是面積。面積要<b>分兩塊、都算成正的</b>。</div>
+<p class="tip">為什麼題目要說 <span data-k="a>0"></span>？若 <span data-k="a<0"></span>，<span data-k="ax^2-1"></span> 永遠是負的，圖形只碰到 <span data-k="x"></span> 軸一次（原點），<b>圍不出有界區域</b>。</p>
+
+<div class="step">換你試試</div>
+<h2>同一題，改一下數字</h2>
+<div class="card" id="try"></div>
+
+<a class="btn ghost next" href="integral-page6_7.html?openExternalBrowser=1">← 回積分page6_7教學</a>
+<div class="foot">看不懂的地方，截圖傳到 LINE 問。</div>
+</div>
+<script src="vendor/katex/katex.min.js"></script>
+<script src="vendor/motion.js"></script>
+<script src="common.js?v=2"></script>
+<script src="plot.js?v=1"></script>
+<script src="integral-ex13.js?v=1"></script>
+</body>
+</html>
